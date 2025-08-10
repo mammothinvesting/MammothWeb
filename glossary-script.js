@@ -125,6 +125,30 @@ class GlossaryApp {
                 mobileNav.classList.remove('active');
             }
         });
+
+        // Handle navigation links - allow all external navigation
+        document.querySelectorAll('.nav-link, .mobile-nav-link, .logo-text, .home-button').forEach(link => {
+            const href = link.getAttribute('href');
+            
+            // Only prevent navigation for current glossary page
+            if (href === 'glossary.html') {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Scroll to top of glossary page
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+            
+            // Close mobile menu when navigating away
+            if (link.classList.contains('mobile-nav-link') && href !== 'glossary.html') {
+                link.addEventListener('click', () => {
+                    if (mobileMenuToggle && mobileNav) {
+                        mobileMenuToggle.classList.remove('active');
+                        mobileNav.classList.remove('active');
+                    }
+                });
+            }
+        });
     }
 
     setupAnimations() {
