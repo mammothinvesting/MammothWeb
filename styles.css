@@ -202,6 +202,10 @@ body {
     position: relative;
     width: 100%;
     height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80vh;
 }
 
 @media (min-width: 640px) {
@@ -228,19 +232,14 @@ body {
     }
 }
 
-.hero-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 80vh;
-}
-
 .hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
+    width: 100%;
+    max-width: 64rem;
 }
 
 .hero-content .banner-subtitle {
@@ -265,14 +264,7 @@ body {
     height: 100%;
 }
 
-.hero-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.7;
-    filter: grayscale(100%);
-}
-
+.hero-video,
 .hero-fallback {
     width: 100%;
     height: 100%;
@@ -325,11 +317,6 @@ body {
     }
 }
 
-.hero-content {
-    width: 100%;
-    max-width: 64rem;
-}
-
 .banner-title {
     font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
@@ -365,11 +352,6 @@ body {
     gap: 1.5rem;
     justify-content: center;
     align-items: center;
-}
-
-.hero-content .banner-subtitle {
-    text-align: center;
-    margin-left: 0;
 }
 
 .cta-button {
@@ -998,31 +980,24 @@ body {
     .banner-title {
         font-size: 1.75rem;
     }
-    
     .banner-subtitle {
         font-size: 1rem;
     }
-    
     .section-header {
         margin-bottom: 2rem;
     }
-    
     .features-grid {
         gap: 1rem;
     }
-    
     .feature-card {
         padding: 1.5rem;
     }
-    
     .about-text h2 {
         font-size: 2rem;
     }
-    
     .contact-info h2 {
         font-size: 2rem;
     }
-    
     .footer-main {
         gap: 2rem;
     }
@@ -1071,10 +1046,13 @@ a:focus {
     outline-offset: 2px;
 }
 
-/* Glossary Section */
+/* ============================================
+   GLOSSARY SECTION & FLASHCARDS (CLEANED)
+   ============================================ */
+
 .glossary-section {
     padding: 6rem 0 4rem;
-    background: black;
+    background: #1f2937 !important;
     min-height: 100vh;
 }
 
@@ -1084,10 +1062,10 @@ a:focus {
     max-width: 48rem;
     margin-left: auto;
     margin-right: auto;
-    background: black;
-    padding: 3rem 2rem;
+    background: transparent;
+    padding: 2rem;
     border-radius: 0.75rem;
-    margin-top: 6rem;
+    margin-top: 2rem;
     position: relative;
     z-index: 1000;
 }
@@ -1154,16 +1132,13 @@ a:focus {
     padding: 1rem;
     border-radius: 0.375rem;
     margin-top: 1rem;
+    color: #6b7280;
+    line-height: 1.6;
 }
 
 .glossary-item .example strong {
     color: #1f2937;
     font-weight: 600;
-}
-
-.glossary-item .example {
-    color: #6b7280;
-    line-height: 1.6;
 }
 
 /* Active navigation state */
@@ -1195,12 +1170,10 @@ a:focus {
     .contact-form-container {
         display: none;
     }
-    
     body {
         font-size: 12pt;
         line-height: 1.4;
     }
-    
     .hero-section {
         height: auto;
         min-height: 200px;
@@ -1211,12 +1184,10 @@ a:focus {
    INTERACTIVE GLOSSARY FLASHCARD STYLES
    ============================================ */
 
-/* Main content wrapper */
 .main-content {
     margin-top: 4rem;
 }
 
-/* Glossary Controls */
 .glossary-controls {
     display: flex;
     gap: 1.5rem;
@@ -1245,7 +1216,7 @@ a:focus {
     color: white;
     background-color: #374151;
     transition: border-color 0.3s ease;
-    min-height: 55px; /* Fixed height to prevent icon cutoff */
+    min-height: 55px;
 }
 
 .search-input:focus {
@@ -1364,11 +1335,26 @@ a:focus {
     margin-bottom: 4rem;
 }
 
+/* FLASHCARD STYLES (CLEANED) */
 .flashcard {
-  min-height: 280px;  /* Changed from fixed height to min-height */
-  height: auto;       /* Allow dynamic height */
-  perspective: 1000px;
-  cursor: pointer;
+    min-height: 280px;
+    height: auto;
+    perspective: 1000px;
+    cursor: pointer;
+    animation: slideInUp 0.5s ease-out;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flashcard:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.flashcard:nth-child(3n) {
+    animation-delay: 0.2s;
+}
+
+.flashcard.flipping {
+    pointer-events: none;
 }
 
 .flashcard-inner {
@@ -1376,52 +1362,61 @@ a:focus {
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.8s;
+    transition: transform 0.6s ease-in-out;
     transform-style: preserve-3d;
+    will-change: transform;
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .flashcard.flipped .flashcard-inner {
-    transform: rotateY(180deg);
+    transform: rotateY(180deg) translateZ(0);
 }
 
 .flashcard-front,
 .flashcard-back {
     position: absolute;
     width: 100%;
-    min-height: 100%;   /* Use min-height instead of height */
-    height: auto;       /* Allow content to expand */
-    backface-visibility: hidden;
+    min-height: 100%;
+    height: auto;
     border-radius: 0.75rem;
-    padding: 1.5rem;    /* Reduced padding for more content space */
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;  /* Changed from center to flex-start */
     align-items: center;
     border: 2px solid #374151;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    overflow-y: auto;   /* Add scroll for very long content */
-    max-height: 400px;  /* Set reasonable max height */
+    overflow-y: auto;
+    max-height: 400px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    word-break: break-word;
 }
 
 .flashcard-front {
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    justify-content: space-between;
 }
 
 .flashcard-back {
     background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
     transform: rotateY(180deg);
+    justify-content: flex-start;
+    gap: 1rem;
 }
 
 .flashcard:hover .flashcard-front,
 .flashcard:hover .flashcard-back {
     border-color: #6b7280;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    transform: translateY(-5px);
 }
 
-.flashcard:hover.flipped .flashcard-back {
-    transform: rotateY(180deg) translateY(-5px);
+.flashcard:not(.flipping):hover {
+    transform: translateY(-5px);
 }
 
 .flashcard-term {
@@ -1444,19 +1439,43 @@ a:focus {
 
 .flashcard-definition {
     color: #1f2937;
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.5;
     margin-bottom: 1rem;
-    text-align: center;
+    text-align: left;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .flashcard-example {
     color: #6b7280;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-style: italic;
     line-height: 1.4;
-    text-align: center;
+    text-align: left;
     margin-bottom: 1rem;
+    overflow-wrap: break-word;
+}
+
+/* Performance optimizations for smooth animations */
+.flashcard,
+.flashcard-inner,
+.flashcard-front,
+.flashcard-back {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Smooth transitions */
+.flashcard {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent animation conflicts */
+.flashcard.flipping {
+    pointer-events: none;
 }
 
 /* Study Mode */
@@ -1504,6 +1523,8 @@ a:focus {
     align-items: center;
     border: 3px solid #d1d5db;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    word-break: break-word;
 }
 
 .study-card-front {
@@ -1618,46 +1639,37 @@ a:focus {
         align-items: stretch;
         gap: 1rem;
     }
-    
     .search-container,
     .category-select {
         max-width: none;
         width: 100%;
     }
-    
     .flashcards-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
     .flashcard {
         height: 250px;
     }
-    
     .study-card {
         height: 350px;
     }
-    
     .study-card-front,
     .study-card-back {
         padding: 2rem;
     }
-    
     .study-term {
         font-size: 1.8rem;
     }
-    
     .study-controls-bottom {
         flex-direction: column;
         align-items: center;
         gap: 1rem;
     }
-    
     .cta-button {
         width: 100%;
         max-width: 300px;
     }
-    
     .glossary-header h1 {
         font-size: 2.5rem;
     }
@@ -1668,16 +1680,13 @@ a:focus {
     .flashcard-back {
         padding: 1.5rem;
     }
-    
     .study-card-front,
     .study-card-back {
         padding: 1.5rem;
     }
-    
     .study-term {
         font-size: 1.5rem;
     }
-    
     .flashcard-term {
         font-size: 1.2rem;
     }
@@ -1700,74 +1709,24 @@ a:focus {
     }
 }
 
-.flashcard {
-    animation: slideInUp 0.5s ease-out;
-}
-
-.flashcard:nth-child(even) {
-    animation-delay: 0.1s;
-}
-
-.flashcard:nth-child(3n) {
-    animation-delay: 0.2s;
-}
-
-/* Override existing glossary styles to work with interactive version */
-.glossary-section {
-    padding: 6rem 0 4rem;
-    background: #1f2937 !important; /* Darker background for contrast */
-    min-height: 100vh;
-}
-
-.glossary-header {
-    text-align: center;
-    margin-bottom: 4rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-    background: transparent;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    margin-top: 2rem;
-    position: relative;
-    z-index: 1000;
-}
-
-.glossary-header h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 1rem;
-}
-
-@media (min-width: 768px) {
-    .glossary-header h1 {
-        font-size: 3.5rem;
-    }
-}
-
-.glossary-header p {
-    color: #d1d5db;
-    font-size: 1.25rem;
-    line-height: 1.6;
-}
-
 /* ============================================
    GLOSSARY PAGE NAVBAR FIXES
    ============================================ */
 
-/* Force navbar to always have proper contrast on glossary page */
-.glossary-section .navbar .logo-text {
+.glossary-section .navbar .logo-text,
+.glossary-page .navbar .logo-text,
+body:has(.glossary-section) .navbar .logo-text {
     color: white !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.glossary-section .navbar.scrolled .logo-text {
+.glossary-section .navbar.scrolled .logo-text,
+.glossary-page .navbar.scrolled .logo-text,
+body:has(.glossary-section) .navbar.scrolled .logo-text {
     color: #1f2937 !important;
-    text-shadow: none;
+    text-shadow: none !important;
 }
 
-/* Make nav links more visible on glossary page */
 .glossary-section .navbar .nav-link {
     color: #f3f4f6 !important;
 }
@@ -1782,6 +1741,16 @@ a:focus {
 
 .glossary-section .navbar.scrolled .mobile-nav-link {
     color: #6b7280 !important;
+}
+
+body:has(.glossary-section) .navbar .menu-toggle,
+.glossary-page .navbar .menu-toggle {
+    color: white !important;
+}
+
+body:has(.glossary-section) .navbar.scrolled .menu-toggle,
+.glossary-page .navbar.scrolled .menu-toggle {
+    color: #1f2937 !important;
 }
 
 /* Home button styling */
@@ -1803,54 +1772,7 @@ a:focus {
 .home-button:hover {
     background: #4b5563;
     transform: translateY(-1px);
-}
-
-.home-button:hover {
     color: white !important;
-}
-
-/* ============================================
-   GLOSSARY NAVBAR LOGO VISIBILITY FIX
-   ============================================ */
-
-/* When on glossary page and navbar is not scrolled - keep logo white */
-body:has(.glossary-section) .navbar .logo-text {
-    color: white !important;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-/* When on glossary page and navbar is scrolled - make logo dark */
-body:has(.glossary-section) .navbar.scrolled .logo-text {
-    color: #1f2937 !important;
-    text-shadow: none !important;
-}
-
-/* Alternative approach if the above doesn't work in all browsers */
-.glossary-page .navbar .logo-text {
-    color: white !important;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-}
-
-.glossary-page .navbar.scrolled .logo-text {
-    color: #1f2937 !important;
-    text-shadow: none !important;
-}
-
-/* Make sure hamburger menu is also visible */
-body:has(.glossary-section) .navbar .menu-toggle {
-    color: white !important;
-}
-
-body:has(.glossary-section) .navbar.scrolled .menu-toggle {
-    color: #1f2937 !important;
-}
-
-.glossary-page .navbar .menu-toggle {
-    color: white !important;
-}
-
-.glossary-page .navbar.scrolled .menu-toggle {
-    color: #1f2937 !important;
 }
 
 /* Instagram Section Styles */
@@ -1902,7 +1824,6 @@ body:has(.glossary-section) .navbar.scrolled .menu-toggle {
     background: #fff;
 }
 
-/* Responsive adjustments */
 @media (max-width: 700px) {
     .instagram-grid {
         grid-template-columns: 1fr;
@@ -1915,5 +1836,4 @@ body:has(.glossary-section) .navbar.scrolled .menu-toggle {
     .instagram-card iframe {
         height: 350px;
     }
-
 }
