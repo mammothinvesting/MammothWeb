@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossary - Mammoth Investing Inc</title>
-    <meta name="description" content="MammthAI Glossary - Comprehensive financial terms and definitions for investors.">
-    
-    <!-- Google Fonts -->
+    <title>Financial Glossary - Mammoth Investing</title>
+    <meta name="description" content="Interactive financial glossary with flashcards for learning key investment and finance terms.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav id="navbar" class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="index.html" class="logo-text">Mammoth Investing Inc</a>
+                <a href="index.html" class="logo-text">Mammoth Investing</a>
             </div>
             
-            <!-- Desktop Navigation -->
-            <div class="nav-menu desktop-nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="index.html#about" class="nav-link">About Us</a>
+            <div class="desktop-nav">
+                <a href="index.html" class="home-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
+                    </svg>
+                    Back to Home
+                </a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
                 <a href="glossary.html" class="nav-link active">Glossary</a>
             </div>
             
-            <!-- Mobile menu button -->
             <div class="mobile-menu-btn">
                 <button id="mobile-menu-toggle" class="menu-toggle">
                     <span class="hamburger"></span>
@@ -36,164 +40,164 @@
                 </button>
             </div>
         </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div class="mobile-nav" id="mobile-nav">
-            <a href="index.html" class="mobile-nav-link">Home</a>
-            <a href="index.html#about" class="mobile-nav-link">About Us</a>
+        
+        <nav id="mobile-nav" class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">🏠 Back to Home</a>
+            <a href="index.html#about" class="mobile-nav-link">About</a>
+            <a href="index.html#features" class="mobile-nav-link">Features</a>
+            <a href="index.html#contact" class="mobile-nav-link">Contact</a>
             <a href="glossary.html" class="mobile-nav-link active">Glossary</a>
-        </div>
+        </nav>
     </nav>
 
-    <!-- Glossary Section -->
-    <section class="glossary-section">
-        <div class="container">
-            <div class="glossary-header">
-                <h1>MammthAI Glossary</h1>
-                <p>Essential financial terms and definitions to help you navigate the world of investing</p>
-            </div>
-            
-            <div class="glossary-content">
-                <div class="glossary-item">
-                    <h3>Burn Rate</h3>
-                    <p>The rate at which a company spends its cash reserves, typically monthly, to fund operations before generating positive cash flow.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A startup with $500,000 in cash spending $50,000 monthly has a burn rate of $50,000/month.
-                    </div>
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <section class="glossary-section">
+            <div class="container">
+                <!-- Header -->
+                <div class="glossary-header">
+                    <h1>Financial Glossary</h1>
+                    <p>Master key financial terms with interactive flashcards</p>
                 </div>
 
-                <div class="glossary-item">
-                    <h3>Cash Runway & Liquidity</h3>
-                    <p>Cash runway is the time a company can operate before running out of cash; liquidity is the ability to meet short-term obligations with available assets.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A company with $1M in cash and a $100,000 monthly burn rate has a 10-month runway; liquid assets like cash ensure it can pay immediate bills.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>DCF (Discounted Cash Flow)</h3>
-                    <p>A valuation method that estimates a company's value by discounting its future cash flows to present value.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A firm projects $100,000 annual cash flow for 5 years; at a 10% discount rate, its present value is approximately $379,000.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>EBITDA (Earnings Before Interest, Taxes, Depreciation, and Amortization)</h3>
-                    <p>A measure of a company's operating performance, excluding non-operating expenses.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A company with $10M revenue, $6M operating expenses, and $1M depreciation has an EBITDA of $3M.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>Insider Trends</h3>
-                    <p>Patterns of buying or selling company stock by insiders (e.g., executives), indicating their confidence in the company's future.</p>
-                    <div class="example">
-                        <strong>Example:</strong> If a CEO buys 10,000 shares of their company at $50 each, it may signal positive insider sentiment.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>M&A (Mergers and Acquisitions)</h3>
-                    <p>Transactions where companies combine (merge) or one acquires another to enhance growth or market share.</p>
-                    <div class="example">
-                        <strong>Example:</strong> Company A buys Company B for $500M to expand its product line, forming a larger entity.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>MACD (Moving Average Convergence Divergence)</h3>
-                    <p>A technical indicator using moving averages to identify momentum and potential trend reversals in stock prices.</p>
-                    <div class="example">
-                        <strong>Example:</strong> If a stock's 12-day EMA crosses above its 26-day EMA, the MACD signals a bullish trend.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>Resistance</h3>
-                    <p>A price level where a stock faces selling pressure, preventing further price increases.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A stock repeatedly fails to break above $100, indicating $100 as a resistance level.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>RSI (Relative Strength Index)</h3>
-                    <p>A momentum indicator measuring price movement speed and magnitude to assess overbought or oversold conditions.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A stock with an RSI of 75 is considered overbought, suggesting a potential price correction.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>Stop-Loss</h3>
-                    <p>An order to sell a security when it reaches a specified price to limit potential losses.</p>
-                    <div class="example">
-                        <strong>Example:</strong> An investor buys a stock at $50 and sets a stop-loss at $45 to cap losses at 10%.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>Succession Plan</h3>
-                    <p>A strategy to ensure leadership continuity by identifying and preparing successors for key roles.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A company grooms a VP to replace the retiring CEO, ensuring a smooth transition.
-                    </div>
-                </div>
-
-                <div class="glossary-item">
-                    <h3>Support</h3>
-                    <p>A price level where a stock tends to find buying interest, preventing further price declines.</p>
-                    <div class="example">
-                        <strong>Example:</strong> A stock consistently bounces back from $20, indicating $20 as a support level.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-main">
-                    <div class="footer-info">
-                        <h3>Mammoth Investing Inc</h3>
-                        <p>
-                            The MammthAI Investing app brings the power of AI-driven stock market analysis to your fingertips, making wealth-building accessible anytime, anywhere. Designed for both novice and seasoned investors.
-                        </p>
-                        <p>New York, United States</p>
-                        
-                        <div class="social-links">
-                            <a href="https://www.linkedin.com/company/mammoth-investing-inc/" target="_blank" rel="noopener noreferrer" class="social-link">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                <!-- Controls -->
+                <div class="glossary-controls">
+                    <div class="search-container">
+                        <div class="search-wrapper">
+                            <input type="text" id="searchInput" class="search-input" placeholder="Search terms..." autocomplete="off">
+                            <div class="search-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
                                 </svg>
-                            </a>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="footer-links">
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="index.html#about">About Us</a></li>
-                            <li><a href="https://www.termsfeed.com/live/3583ef19-2d07-40b4-a116-ea865b2eae5a" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-                        </ul>
+                    <div class="filter-container">
+                        <select id="categoryFilter" class="category-select">
+                            <option value="">All Categories</option>
+                            <option value="Financial Metrics">Financial Metrics</option>
+                            <option value="Technical Analysis">Technical Analysis</option>
+                            <option value="Valuation">Valuation</option>
+                            <option value="Market Analysis">Market Analysis</option>
+                            <option value="Corporate Actions">Corporate Actions</option>
+                            <option value="Risk Management">Risk Management</option>
+                            <option value="Corporate Governance">Corporate Governance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="study-controls">
+                        <button id="studyModeBtn" class="cta-button">
+                            🎯 Start Study Mode
+                        </button>
+                        <button id="resetBtn" class="cta-button secondary" style="display: none;">
+                            🔄 Reset Session
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Container -->
+                <div class="progress-container" id="progressContainer" style="display: none;">
+                    <div class="progress-info">
+                        <span id="progressText">Progress: 0/0</span>
+                        <span id="studyStats"></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Flashcards Grid -->
+                <div class="flashcards-grid" id="flashcardsGrid">
+                    <!-- Flashcards will be populated by JavaScript -->
+                </div>
+
+                <!-- Study Mode -->
+                <div class="study-mode" id="studyMode" style="display: none;">
+                    <div class="study-card-container">
+                        <div class="study-card" id="studyCard">
+                            <div class="study-card-inner">
+                                <div class="study-card-front">
+                                    <h3 class="study-term"></h3>
+                                    <p class="study-instruction">Click to reveal definition or press SPACE</p>
+                                </div>
+                                <div class="study-card-back">
+                                    <h3 class="study-term"></h3>
+                                    <p class="study-definition"></p>
+                                    <p class="study-example"></p>
+                                    <span class="study-category"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="study-controls-bottom">
+                        <button id="prevCardBtn" class="cta-button secondary">⬅️ Previous</button>
+                        <button id="flipCardBtn" class="cta-button">🔄 Flip Card</button>
+                        <button id="nextCardBtn" class="cta-button secondary">Next ➡️</button>
+                    </div>
+                    
+                    <div class="study-navigation">
+                        <button id="exitStudyBtn" class="cta-button outline">❌ Exit Study Mode</button>
+                    </div>
+
+                    <!-- Keyboard shortcuts info -->
+                    <div class="keyboard-shortcuts">
+                        <p><strong>Keyboard Shortcuts:</strong> SPACE = Flip | ← → = Navigate | ESC = Exit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-info">
+                    <h3>Mammoth Investing</h3>
+                    <p>Empowering investors with AI-powered stock market insights and educational resources.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
                     </div>
                 </div>
                 
-                <div class="footer-bottom">
-                    <p>&copy; <span id="current-year"></span> Mammoth Investing Inc. All rights reserved.</p>
-                    <div class="footer-legal">
-                        <a href="https://www.termsfeed.com/live/3583ef19-2d07-40b4-a116-ea865b2eae5a" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-                    </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2025</span> Mammoth Investing Inc. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="glossary-script.js"></script>
 </body>
-</html> 
+</html>
