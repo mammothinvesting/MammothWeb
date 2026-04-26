@@ -568,13 +568,13 @@
       const overlay = document.getElementById('mobile-nav-overlay');
       const burger = document.getElementById('nav-hamburger');
       if (!overlay) return;
-      overlay.classList.toggle('active');
+      overlay.classList.toggle('open');
       if (burger) burger.classList.toggle('active');
     }
     function closeMobileNav() {
       const overlay = document.getElementById('mobile-nav-overlay');
       const burger = document.getElementById('nav-hamburger');
-      if (overlay) overlay.classList.remove('active');
+      if (overlay) overlay.classList.remove('open');
       if (burger) burger.classList.remove('active');
     }
 
