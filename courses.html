@@ -1,0 +1,2627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#09090f">
+
+  <title>Learn with Mammth — Investing Courses & Quizzes | Mammoth Investing</title>
+  <meta name="description"
+    content="Master investing with Mammoth's bite-sized courses. Control your money, grow it through smart investing, and understand why markets move — all gamified with quizzes and rewards.">
+  <meta name="keywords" content="investing courses, learn investing, stock market courses, financial literacy, investing for beginners, money management">
+  <meta name="author" content="Mammoth Investing Inc">
+  <link rel="canonical" href="https://mammothinvesting.com/courses.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mammoth Investing">
+  <meta property="og:title" content="Learn with Mammth — Investing Courses & Quizzes">
+  <meta property="og:description"
+    content="Bite-sized investing courses and quizzes that turn financial literacy into a game. Control money, grow money, and understand why markets move.">
+  <meta property="og:url" content="https://mammothinvesting.com/courses.html">
+  <meta property="og:image" content="https://mammothinvesting.com/assets/MammthPurpleLogo.png">
+  <meta property="og:image:alt" content="Mammoth Investing logo">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Learn with Mammth — Investing Courses & Quizzes">
+  <meta name="twitter:description" content="Bite-sized investing courses and quizzes that turn financial literacy into a game.">
+  <meta name="twitter:image" content="https://mammothinvesting.com/assets/MammthPurpleLogo.png">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="apple-touch-icon" href="assets/MammthPurpleLogo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Stripe JS -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <style>
+    /* ════════════════════════════════════════════════════════════
+       COURSE CATALOG SCREEN
+       ════════════════════════════════════════════════════════════ */
+    .catalog-header {
+      text-align: center;
+      padding: 48px 24px 12px;
+    }
+    .catalog-title {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #A855F7, #C026D3, #7C3AED);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 8px;
+    }
+    .catalog-subtitle {
+      color: var(--text-dim, #94a3b8);
+      font-size: 1rem;
+      margin: 0;
+      max-width: 500px;
+      margin-inline: auto;
+      line-height: 1.5;
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+      padding: 32px 24px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .catalog-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
+      animation: catalogFadeIn 0.6s ease both;
+      position: relative;
+    }
+    .catalog-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.08) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .catalog-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 20px 60px rgba(124,58,237,0.18), 0 0 0 1px rgba(168,85,247,0.2);
+      border-color: rgba(168,85,247,0.25);
+    }
+    .catalog-card:hover::before { opacity: 1; }
+    .catalog-card:hover .catalog-card-overlay {
+      opacity: 0.25;
+    }
+    .catalog-card:hover .catalog-card-img img {
+      transform: scale(1.06);
+    }
+    @keyframes catalogFadeIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .catalog-card-img {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+    .catalog-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(.22,1,.36,1);
+    }
+    .catalog-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,20,0.85) 0%, rgba(10,10,20,0.2) 50%, transparent 100%);
+      opacity: 0.6;
+      transition: opacity 0.4s ease;
+    }
+    .catalog-card-body {
+      position: relative;
+      z-index: 1;
+      padding: 22px 24px 24px;
+    }
+    .catalog-card-title {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 8px;
+      line-height: 1.3;
+    }
+    .catalog-card-desc {
+      color: var(--text-dim, #94a3b8);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin: 0 0 16px;
+    }
+    .catalog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .catalog-card-lessons {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dim, #94a3b8);
+      background: rgba(255,255,255,0.06);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .catalog-card-progress-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #A855F7;
+      background: rgba(168,85,247,0.12);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .catalog-card-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .catalog-card-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #7C3AED, #A855F7, #C026D3);
+      transition: width 0.6s cubic-bezier(.22,1,.36,1);
+    }
+    .catalog-card-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+    }
+    .catalog-card-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(124,58,237,0.45);
+      background: var(--gradient-hover);
+    }
+    .catalog-card-btn.continue {
+      background: linear-gradient(135deg, #28A745, var(--success));
+      box-shadow: 0 4px 16px rgba(52,199,89,0.3);
+    }
+    .catalog-card-btn.continue:hover {
+      box-shadow: 0 6px 24px rgba(52,199,89,0.45);
+      filter: brightness(1.1);
+    }
+    .catalog-card-btn.completed {
+      background: rgba(255,255,255,0.06);
+      color: var(--text-dim, #94a3b8);
+      box-shadow: none;
+      cursor: default;
+    }
+    .catalog-card-btn.completed:hover {
+      transform: none;
+      filter: none;
+      box-shadow: none;
+    }
+
+    /* Back button for learn screen → catalog */
+    .learn-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--text-dim, #94a3b8);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 0;
+      transition: color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .learn-back-btn:hover { color: #A855F7; }
+
+    @media (max-width: 768px) {
+      .catalog-grid {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 40px;
+        gap: 20px;
+      }
+      .catalog-title { font-size: 1.7rem; }
+      .catalog-header { padding: 32px 16px 8px; }
+      .catalog-card-img { height: 160px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+     ═══════════════════════════════════════════════════════════ -->
+  <nav class="site-nav scrolled" id="site-nav">
+    <a href="index.html" class="nav-brand">Mammoth Investing</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="glossary.html">Glossary</a>
+    </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <a href="index.html" onclick="closeMobileNav()">Home</a>
+    <a href="about.html" onclick="closeMobileNav()">About Us</a>
+    <a href="glossary.html">Glossary</a>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+     APP SECTION (standalone)
+     ═══════════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════
+     GOOGLE SIGN-IN OVERLAY
+     ═══════════════════════════════════════════════════════════ -->
+  <div class="google-auth-overlay" id="google-auth-overlay">
+    <div class="auth-card">
+      <button class="auth-close-btn" onclick="window.location.href='index.html'" title="Close">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="auth-glow"></div>
+      <div class="auth-brand">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#authGrad)" stroke-width="2">
+          <defs>
+            <linearGradient id="authGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#7C3AED" />
+              <stop offset="100%" stop-color="#C026D3" />
+            </linearGradient>
+          </defs>
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        </svg>
+        <span>Learn with Mammth</span>
+      </div>
+      <h2 class="auth-title">Sign in to continue</h2>
+      <p class="auth-subtitle">Track your progress, earn coins, and compete with others</p>
+      <div class="auth-google-wrap" id="auth-google-wrap"
+        style="display:flex; justify-content:center; align-items:center; min-height:44px;">
+      </div>
+      <p class="auth-terms">By signing in, you agree to our <a
+          href="https://www.termsfeed.com/live/3583ef19-2d07-40b4-a116-ea865b2eae5a" target="_blank">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+
+  <section class="app-section" id="app-section">
+    <div id="app">
+
+      <!-- App Header — Two rows: Brand + Stats -->
+      <header class="app-topbar">
+        <div class="topbar-brand">
+          <button class="user-avatar-btn" id="user-avatar-btn" onclick="toggleUserMenu()" title="Account">
+            <img id="user-avatar-img" src="" alt="" class="user-avatar-img" />
+          </button>
+        </div>
+        <div class="topbar-stats">
+          <div class="stat-chip coins-chip" title="Coins">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v12" />
+              <path d="M15 9.5c0-1.38-1.34-2.5-3-2.5s-3 1.12-3 2.5 1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5" />
+            </svg>
+            <span id="d-coins">0</span>
+          </div>
+          <button class="buy-energy-chip" id="buy-energy-chip" onclick="buyEnergy()" title="Buy 5 energy for 200 coins">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+            <span>+5</span>
+            <span class="buy-cost">200</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v8" />
+              <path d="M14.5 10.5c0-1-.9-1.8-2.5-1.8s-2.5.8-2.5 1.8.9 1.8 2.5 1.8 2.5.8 2.5 1.8-.9 1.8-2.5 1.8" />
+            </svg>
+          </button>
+          <div class="stat-chip energy-chip" id="energy-stat-wrap" title="Energy">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+            <div class="energy-capsules" id="energy-capsules"></div>
+            <span class="energy-count" id="d-energy">10</span>
+            <span class="energy-timer" id="energy-timer"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- User Profile Dropdown Menu -->
+      <div class="profile-menu" id="profile-menu">
+        <div class="profile-menu-header">
+          <img id="pm-avatar" src="" alt="Avatar" />
+          <div class="pm-info">
+            <h4 id="pm-name">User Name</h4>
+            <p id="pm-email">user@email.com</p>
+          </div>
+        </div>
+        <div class="profile-menu-body">
+          <button class="pm-action-btn pm-signout" onclick="signOutGoogle()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Energy Recharge Overlay -->
+      <div class="energy-overlay" id="energy-overlay">
+        <div class="energy-overlay-card">
+          <div class="energy-pulse-ring"></div>
+          <div class="energy-overlay-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <h3 class="energy-overlay-title">Recharging Energy</h3>
+          <p class="energy-overlay-sub">Your energy is depleted. Each bar recharges every 5 minutes&mdash;or buy 5 bars
+            instantly!</p>
+          <div class="energy-overlay-bars" id="energy-overlay-bars"></div>
+          <div class="energy-overlay-countdown">
+            <span>Next bar in</span>
+            <strong id="energy-overlay-timer">5:00</strong>
+          </div>
+          <div class="energy-overlay-actions">
+            <button class="energy-buy-btn" id="energy-buy-overlay" onclick="buyEnergy(); closeEnergyOverlay();">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+              </svg>
+              Buy 5 Energy
+              <span class="energy-buy-cost">200
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                </svg>
+              </span>
+            </button>
+            <button class="energy-overlay-btn" onclick="closeEnergyOverlay()">Wait for recharge</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN: PAYWALL ── -->
+      <div id="screen-paywall" class="app-screen">
+        <div class="paywall-container">
+          <button class="paywall-close" onclick="goLearnScreen()" title="Back to lessons" aria-label="Back to lessons">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <div class="paywall-card">
+            <div class="paywall-glow"></div>
+            <div class="paywall-trial-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
+              </svg>
+              <span>Mammoth Premium</span>
+            </div>
+            <h2 class="paywall-title">Try free for 7 days</h2>
+            <p class="paywall-subtitle">You've sampled the first lesson. Unlock every lesson across all 3 paths and
+              master investing — risk-free for a week.</p>
+
+            <div class="paywall-price">
+              <div class="paywall-price-trial">
+                <span class="paywall-trial-strong">7 days free</span>
+                <span class="paywall-trial-then">then $0.99/month</span>
+              </div>
+              <div class="paywall-price-row">
+                <span class="currency">$</span><span class="amount">0.99</span><span class="period">/mo after
+                  trial</span>
+              </div>
+            </div>
+
+            <ul class="paywall-features">
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20,6 9,17 4,12" />
+                </svg>
+                Every lesson across all 3 categories — instantly unlocked
+              </li>
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20,6 9,17 4,12" />
+                </svg>
+                Interactive quizzes, streaks, coins &amp; XP
+              </li>
+              <li>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20,6 9,17 4,12" />
+                </svg>
+                Cancel anytime in one tap — no commitment
+              </li>
+            </ul>
+
+            <button class="paywall-btn" id="stripe-checkout-btn" onclick="startStripeCheckout()">
+              Start 7-Day Free Trial
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12,5 19,12 12,19" />
+              </svg>
+            </button>
+            <button class="paywall-secondary" onclick="goLearnScreen()">Maybe later</button>
+            <p class="paywall-terms">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                style="vertical-align:-1px;margin-right:4px">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Secure checkout powered by Stripe.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN: COURSE CATALOG ── -->
+      <div id="screen-catalog" class="app-screen active">
+        <div class="catalog-header">
+          <button class="learn-back-btn" onclick="window.location.href='index.html'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+            Back to Home
+          </button>
+          <h1 class="catalog-title">Courses</h1>
+          <p class="catalog-subtitle">Choose a learning path and master investing at your own pace.</p>
+        </div>
+        <div class="catalog-grid" id="catalog-grid">
+          <!-- Cards rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ── SCREEN: LEARN ── -->
+      <div id="screen-learn" class="app-screen">
+        <div class="learn-header">
+          <button class="learn-back-btn" onclick="loadCatalogScreen()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+            Back to Categories
+          </button>
+          <div class="learn-title">Course Topics</div>
+          <div class="learn-count" id="learn-count"></div>
+        </div>
+        <div class="topics-body" id="topics-body">
+          <div class="loading-state">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SCREEN: READING (Tinder-Style Cards) ── -->
+      <div id="screen-read" class="app-screen">
+        <div class="read-topbar">
+          <button class="read-close" onclick="closeRead()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15,18 9,12 15,6" />
+            </svg>
+            <span>Back</span>
+          </button>
+          <div class="read-progress-wrapper">
+            <div class="read-pagenum" id="read-pagenum">Page 1 of 4</div>
+            <div class="read-pbar">
+              <div class="read-pfill" id="read-pfill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="read-topbar-spacer" style="width: 72px;"></div>
+        </div>
+
+        <!-- Swipe hint arrows on screen edges -->
+        <div class="swipe-edge-hint left" id="swipe-hint-left">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="15,18 9,12 15,6" />
+          </svg>
+          <span>PREV</span>
+        </div>
+        <div class="swipe-edge-hint right" id="swipe-hint-right">
+          <span>NEXT</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9,6 15,12 9,18" />
+          </svg>
+        </div>
+
+        <!-- Tinder card deck -->
+        <div class="swipe-deck" id="swipe-deck"></div>
+
+        <!-- Skip typewriter button -->
+        <button class="tw-skip-btn" id="tw-skip-btn" onclick="skipTypewriter()">
+          Skip
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5,4 15,12 5,20" /><rect x="15" y="4" width="4" height="16" rx="1" />
+          </svg>
+        </button>
+
+        <!-- Swipe action buttons (fallback + visual) -->
+        <div class="swipe-actions" id="swipe-actions">
+          <button class="swipe-btn prev" id="swipe-btn-prev" onclick="triggerSwipe('prev')" title="Previous">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15,18 9,12 15,6" />
+            </svg>
+          </button>
+          <div class="swipe-page-indicator" id="swipe-page-dots"></div>
+          <button class="swipe-btn next" id="swipe-btn-next" onclick="triggerSwipe('next')" title="Next">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9,6 15,12 9,18" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Reward overlay -->
+        <div class="reward-overlay" id="read-reward">
+          <div class="reward-icon-wrap"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff"
+              stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22,4 12,14.01 9,11.01" />
+            </svg></div>
+          <h3 id="rw-title">Lesson Complete!</h3>
+          <p id="rw-sub">You've finished reading this topic</p>
+          <div class="reward-coins" id="rw-coins">+15 coins</div>
+          <div class="reward-energy" id="rw-energy">-1 energy</div>
+          <button class="reward-btn" onclick="closeReward()">Take Quiz</button>
+        </div>
+      </div>
+
+      <div id="screen-quiz" class="app-screen">
+        <div class="quiz-topbar">
+          <button class="quiz-close" onclick="exitQuiz()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15,18 9,12 15,6" />
+            </svg>
+            <span>Back</span>
+          </button>
+          <div class="quiz-progress-wrapper">
+            <div class="quiz-pbar">
+              <div class="quiz-pfill" id="quiz-pfill" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="quiz-coins-display">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v12" />
+              <path d="M15 9.5c0-1.38-1.34-2.5-3-2.5s-3 1.12-3 2.5 1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5" />
+            </svg>
+            <span id="quiz-coins">0</span>
+          </div>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-topic-tag">
+            <div class="quiz-topic-dot"></div><span id="quiz-tag">Topic</span>
+          </div>
+          <div class="quiz-qnum" id="quiz-qnum">Question 1 of 5</div>
+          <div class="quiz-qtext" id="quiz-qtext"></div>
+          <div class="quiz-opts" id="quiz-opts"></div>
+          <div class="explain-box" id="quiz-explain">
+            <div class="explain-hdr" id="quiz-exhdr"></div>
+            <div class="explain-txt" id="quiz-extxt"></div>
+          </div>
+          <button class="quiz-next-btn" id="quiz-next-btn" onclick="quizNext()">Continue</button>
+        </div>
+      </div>
+
+      <!-- ── SCREEN: RESULTS ── -->
+      <div id="screen-results" class="app-screen results-screen">
+        <div class="results-content-wrap">
+          <div class="r-mammoth-wrap" id="res-mammoth-wrap">
+            <img id="res-mammoth-gif" class="r-mammoth-gif" alt="" />
+          </div>
+          <div class="r-icon" id="res-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <circle cx="12" cy="8" r="7" />
+              <polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88" />
+            </svg>
+          </div>
+          <div class="r-title" id="res-title">Level Complete!</div>
+          <div class="r-sub" id="res-sub">Great work!</div>
+          <div class="ring-wrap">
+            <svg class="ring-svg" viewBox="0 0 130 130">
+              <defs>
+                <linearGradient id="rGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#7C3AED" />
+                  <stop offset="50%" stop-color="#A855F7" />
+                  <stop offset="100%" stop-color="#C026D3" />
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="65" cy="65" r="55" />
+              <circle class="ring-fill" id="res-ring" cx="65" cy="65" r="55" />
+            </svg>
+            <div class="ring-text">
+              <div class="ring-num" id="res-num">4/5</div>
+              <div class="ring-lbl" id="res-lbl">80%</div>
+            </div>
+          </div>
+          <div class="rewards">
+            <div class="rw-card rw-coins">
+              <div class="rw-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--accent)" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 6v12" />
+                  <path d="M15 9.5c0-1.38-1.34-2.5-3-2.5s-3 1.12-3 2.5 1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5" />
+                </svg></div>
+              <div class="rw-val" id="res-coins">40</div>
+              <div class="rw-lbl">Coins</div>
+            </div>
+            <div class="rw-card rw-acc">
+              <div class="rw-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="var(--success)" stroke-width="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg></div>
+              <div class="rw-val" id="res-acc">80%</div>
+              <div class="rw-lbl">Accuracy</div>
+            </div>
+          </div>
+          <div class="r-btns">
+            <button class="r-btn primary" id="res-continue" onclick="goLearnScreen()">Continue</button>
+            <button class="r-btn secondary" id="res-retry" onclick="retryQuiz()">Play Again</button>
+            <button class="r-btn outline" id="res-catalog" onclick="loadCatalogScreen()">Back to Categories</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /app -->
+  </section>
+
+
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+     APP LOGIC
+     ═══════════════════════════════════════════════════════════ -->
+  <script>
+    // ============================================================
+    // SUPABASE CLIENT
+    // ============================================================
+    const SUPABASE_URL = 'https://lwaodehsdpmwromjsfqd.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_eQ2wY7demk80y7EsBgS29w_KyaNC_Fj';
+    let sb = null;
+    let useSupabase = false;
+
+    try {
+      if (SUPABASE_URL !== 'YOUR_SUPABASE_URL' && typeof supabase !== 'undefined') {
+        sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        useSupabase = true;
+      }
+    } catch (e) { }
+
+    // ============================================================
+    // USER SESSION (synced from Supabase Auth)
+    // ============================================================
+    // Cache of the currently signed-in user. Mirrors the shape the rest of
+    // the app expects from the old getGoogleUser() helper so we don't have
+    // to touch every call site.
+    let CURRENT_USER = null;
+    let CURRENT_USER_ID = null;
+
+    function applySession(session) {
+      if (!session || !session.user) {
+        CURRENT_USER = null;
+        CURRENT_USER_ID = null;
+        return;
+      }
+      const u = session.user;
+      const m = u.user_metadata || {};
+      CURRENT_USER = {
+        name: m.full_name || m.name || u.email || 'User',
+        email: u.email,
+        picture: m.avatar_url || m.picture || '',
+        sub: u.id,
+      };
+      CURRENT_USER_ID = u.id;
+    }
+
+    // Subscribe early so we don't miss the INITIAL_SESSION event.
+    if (sb) {
+      sb.auth.onAuthStateChange((event, session) => {
+        const wasSignedIn = !!CURRENT_USER_ID;
+        applySession(session);
+
+        if (session && session.user) {
+          if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION' || !wasSignedIn) {
+            loadServerState().catch(err => console.warn('loadServerState:', err));
+          }
+        } else if (event === 'SIGNED_OUT') {
+          // Reset in-memory state to defaults so the next signed-in user
+          // doesn't inherit the previous user's data.
+          Object.assign(S, JSON.parse(JSON.stringify(DS)));
+          saveLocal();
+          if (typeof updateStats === 'function') updateStats();
+        }
+      });
+    }
+
+    // ============================================================
+    // FALLBACK DATA
+    // ============================================================
+    const FALLBACK = {
+      topics: [
+        { topic_slug: 'how-money-flows', topic_name: 'How Money Flows', category: 'Control Money', level_number: 1, display_order: 1 },
+        { topic_slug: 'spending-psychology', topic_name: 'Spending Psychology', category: 'Control Money', level_number: 1, display_order: 2 },
+        { topic_slug: 'saving-done-right', topic_name: 'Saving (Done Right)', category: 'Control Money', level_number: 1, display_order: 3 },
+        { topic_slug: 'debt-and-credit', topic_name: 'Debt & Credit', category: 'Control Money', level_number: 1, display_order: 4 },
+        { topic_slug: 'budgeting', topic_name: 'Budgeting (But Not Boring)', category: 'Control Money', level_number: 1, display_order: 5 },
+        { topic_slug: 'why-investing-matters', topic_name: 'Why Investing Matters', category: 'Grow Money', level_number: 3, display_order: 6 },
+        { topic_slug: 'types-of-investments', topic_name: 'Types of Investments', category: 'Grow Money', level_number: 7, display_order: 7 },
+        { topic_slug: 'how-to-start-investing', topic_name: 'How to Start Investing', category: 'Grow Money', level_number: 3, display_order: 8 },
+        { topic_slug: 'risk-the-real-game', topic_name: 'Risk (The Real Game)', category: 'Grow Money', level_number: 8, display_order: 9 },
+        { topic_slug: 'dividends-passive-income', topic_name: 'Dividends & Passive Income', category: 'Grow Money', level_number: 6, display_order: 10 },
+        { topic_slug: 'stock-market-history', topic_name: 'Why Did the Stock Market Even Exist?', category: 'Understand Why Money Moves', level_number: 2, display_order: 11 },
+        { topic_slug: 'news-moves-stocks', topic_name: 'How News Moves Stocks', category: 'Understand Why Money Moves', level_number: 2, display_order: 12 },
+        { topic_slug: 'market-sentiment', topic_name: 'Market Sentiment (The Invisible Force)', category: 'Understand Why Money Moves', level_number: 10, display_order: 13 },
+        { topic_slug: 'currency-exchange-rates', topic_name: 'Currency & Exchange Rates', category: 'Understand Why Money Moves', level_number: 5, display_order: 14 },
+        { topic_slug: 'inflation-economy', topic_name: 'Inflation & Economy', category: 'Understand Why Money Moves', level_number: 12, display_order: 15 },
+      ],
+      learning_content: [
+        { topic_slug: 'how-money-flows', subtopic: 'Income vs Expenses', explanation: 'Money flow starts with understanding your income and where it goes. Income is what you earn — salary, freelance, side hustles. Expenses are what you spend. The golden rule: always know if more money is coming in than going out.', display_order: 1 },
+        { topic_slug: 'how-money-flows', subtopic: 'Fixed vs Variable Costs', explanation: 'Not all expenses are equal. Fixed costs stay the same every month — rent, subscriptions, insurance. Variable costs change — food, entertainment, shopping. Knowing the difference helps you find where to cut.', display_order: 2 },
+        { topic_slug: 'how-money-flows', subtopic: 'Cash Flow Basics', explanation: 'Cash flow is simply: Income minus Expenses. Positive cash flow means you have money left to save or invest. Negative cash flow means you\'re spending more than you earn — a dangerous pattern that leads to debt.', display_order: 3 },
+        { topic_slug: 'how-money-flows', subtopic: 'The Income Statement', explanation: 'Think of your personal finances like a business. Track every dollar in and out each month. Apps make this easy. The people who build wealth aren\'t just high earners — they\'re people who understand where their money goes.', display_order: 4 },
+        { topic_slug: 'spending-psychology', subtopic: 'Needs vs Wants', explanation: 'A need is something you require to survive — food, shelter, healthcare. A want is something you desire but can live without — the latest iPhone, designer clothes, eating out. Learning to tell the difference is the first step to controlling spending.', display_order: 1 },
+        { topic_slug: 'spending-psychology', subtopic: 'Impulse Spending', explanation: 'Impulse buying is your brain\'s reward center overriding your logic. Retailers design entire stores to trigger this. The 24-hour rule works wonders: wait a day before any non-essential purchase over $50.', display_order: 2 },
+        { topic_slug: 'spending-psychology', subtopic: 'The Latte Effect', explanation: 'Small daily purchases add up massively over time. A $5 coffee every workday = $1,300/year. Invested at 10% for 30 years, that becomes over $200,000. You don\'t have to give up coffee — just be aware of the hidden cost.', display_order: 3 },
+        { topic_slug: 'saving-done-right', subtopic: 'Pay Yourself First', explanation: 'The most powerful saving strategy: treat savings like a bill. Set up automatic transfers so 10% of your income goes to savings BEFORE you can spend it.', display_order: 1 },
+        { topic_slug: 'saving-done-right', subtopic: 'Emergency Fund', explanation: 'Before investing, build a cash cushion of 3-6 months of essential expenses. This protects you from unexpected costs without having to sell investments at a loss.', display_order: 2 },
+        { topic_slug: 'saving-done-right', subtopic: 'High-Yield Savings', explanation: 'Don\'t let your emergency fund sit in a regular account earning 0.01%. High-yield savings accounts offer 4-5% APY. Your money should work even while sitting as a safety net.', display_order: 3 },
+        { topic_slug: 'debt-and-credit', subtopic: 'Good Debt vs Bad Debt', explanation: 'Not all debt is evil. Good debt (mortgage, student loans at low rates) can build wealth. Bad debt (credit cards at 20%+ interest) destroys it.', display_order: 1 },
+        { topic_slug: 'debt-and-credit', subtopic: 'Credit Score Basics', explanation: 'Your credit score (300-850) is your financial reputation. It affects loan rates, apartment applications, even job offers. Pay bills on time, keep credit utilization below 30%.', display_order: 2 },
+        { topic_slug: 'debt-and-credit', subtopic: 'Debt Snowball vs Avalanche', explanation: 'Snowball: pay off smallest debts first for quick wins. Avalanche: pay off highest interest debts first to save the most money. Both work — pick the one that keeps you going.', display_order: 3 },
+        { topic_slug: 'budgeting', subtopic: 'The 50/30/20 Rule', explanation: 'A simple framework: 50% of income goes to needs, 30% to wants, and 20% to savings and debt repayment. It\'s a starting point — adjust to fit your life.', display_order: 1 },
+        { topic_slug: 'budgeting', subtopic: 'Zero-Based Budgeting', explanation: 'Every dollar gets a job. Income minus all planned expenses should equal zero. Savings and investments are "expenses" in this system.', display_order: 2 },
+        { topic_slug: 'budgeting', subtopic: 'Tracking Tools', explanation: 'You can\'t manage what you don\'t measure. Use apps like Mint, YNAB, or a simple spreadsheet. Tracking alone often reduces spending by 10-15%.', display_order: 3 },
+        { topic_slug: 'why-investing-matters', subtopic: 'Why Start Now?', explanation: 'Every year you delay investing costs you. Thanks to compound growth, $1,000 invested at age 25 grows way more than $1,000 invested at 35. Time is your biggest asset.', display_order: 1 },
+        { topic_slug: 'why-investing-matters', subtopic: 'Compound Growth', explanation: 'Compound interest means you earn returns on your returns. $10,000 at 10% becomes $11,000 in year 1, then $12,100, then $13,310. Einstein called it the 8th wonder of the world.', display_order: 2 },
+        { topic_slug: 'why-investing-matters', subtopic: 'Beating Inflation', explanation: 'Inflation averages 2-3% per year. If your savings earn 0.5%, you\'re losing purchasing power. Investing is the only reliable way to grow wealth faster than inflation erodes it.', display_order: 3 },
+        { topic_slug: 'why-investing-matters', subtopic: 'Time in the Market', explanation: 'Over any 20-year period, the S&P 500 has never lost money. The biggest risk isn\'t market crashes — it\'s not being invested at all.', display_order: 4 },
+        { topic_slug: 'types-of-investments', subtopic: 'Stocks', explanation: 'A stock is a tiny piece of ownership in a company. When the company grows and profits, your share becomes more valuable. Stocks have the highest long-term returns (~10% annually).', display_order: 1 },
+        { topic_slug: 'types-of-investments', subtopic: 'Bonds', explanation: 'A bond is a loan you make to a company or government. They pay you regular interest and return your principal at maturity. Bonds are safer but offer lower returns.', display_order: 2 },
+        { topic_slug: 'types-of-investments', subtopic: 'ETFs & Index Funds', explanation: 'An ETF bundles many stocks into one investment. Instead of picking individual companies, you can buy the entire S&P 500 for the cost of one share. Low fees, instant diversification.', display_order: 3 },
+        { topic_slug: 'how-to-start-investing', subtopic: 'Opening a Brokerage Account', explanation: 'You need a brokerage account to invest. Fidelity, Schwab, or Robinhood let you start with as little as $1. Look for $0 commissions and fractional shares.', display_order: 1 },
+        { topic_slug: 'how-to-start-investing', subtopic: 'Your First Investment', explanation: 'A total stock market index fund (like VTI or VOO) gives you instant diversification across hundreds of companies. Start small, stay consistent.', display_order: 2 },
+        { topic_slug: 'how-to-start-investing', subtopic: 'Dollar-Cost Averaging', explanation: 'Instead of timing the market, invest a fixed amount regularly. You buy more shares when low, fewer when high. It removes emotion and builds wealth steadily.', display_order: 3 },
+        { topic_slug: 'risk-the-real-game', subtopic: 'What is Risk?', explanation: 'Risk means the possibility your investment loses value. Risk and return are linked — higher potential returns always come with higher risk.', display_order: 1 },
+        { topic_slug: 'risk-the-real-game', subtopic: 'Diversification', explanation: 'Spread your money across different types, industries, and geographies. If one drops 50% but it\'s only 5% of your portfolio, total loss is just 2.5%.', display_order: 2 },
+        { topic_slug: 'risk-the-real-game', subtopic: 'Risk Tolerance', explanation: 'Depends on age, income, goals, and personality. Young investors can afford more risk (more stocks) because they have decades to recover.', display_order: 3 },
+        { topic_slug: 'dividends-passive-income', subtopic: 'What are Dividends?', explanation: 'Dividends are cash payments companies make to shareholders from their profits. Dividend stocks like Coca-Cola pay you just for holding their stock.', display_order: 1 },
+        { topic_slug: 'dividends-passive-income', subtopic: 'Dividend Yield', explanation: 'Yield = annual dividend ÷ stock price. A stock at $100 paying $4/year has a 4% yield. Look for companies that consistently grow their dividends.', display_order: 2 },
+        { topic_slug: 'dividends-passive-income', subtopic: 'DRIP – Reinvesting Dividends', explanation: 'DRIP automatically uses dividends to buy more shares. Those new shares earn their own dividends, creating a compounding machine.', display_order: 3 },
+        { topic_slug: 'stock-market-history', subtopic: 'Before Stocks: Trade & Merchants', explanation: 'Before stocks, merchants would risk everything on a single trade voyage. The concept of sharing that risk planted the seed for the stock market.', display_order: 1 },
+        { topic_slug: 'stock-market-history', subtopic: 'First Companies', explanation: 'The Dutch East India Company (1602) was the first to issue stock to the public, letting ordinary people invest in trade voyages.', display_order: 2 },
+        { topic_slug: 'stock-market-history', subtopic: 'Why People Pooled Money', explanation: 'Pooling money allowed massive projects. 100 people each contributing $100 instead of one person risking $10,000. Shared risk and shared reward.', display_order: 3 },
+        { topic_slug: 'stock-market-history', subtopic: 'Birth of Stock Exchanges', explanation: 'Exchanges solved the problem of "I want my money back." A place to buy and sell shares at any time. The idea hasn\'t changed in 400 years.', display_order: 4 },
+        { topic_slug: 'news-moves-stocks', subtopic: 'Good News vs Bad News', explanation: 'Good news (higher profits, new products) pushes stocks up. Bad news pushes down. But it\'s not the news itself — it\'s whether it was expected.', display_order: 1 },
+        { topic_slug: 'news-moves-stocks', subtopic: 'Expectations vs Reality', explanation: 'Stocks don\'t move on news — they move on how news compares to expectations. Record profits can disappoint if investors expected more.', display_order: 2 },
+        { topic_slug: 'news-moves-stocks', subtopic: 'Earnings Announcements', explanation: 'Quarterly report cards showing revenue, profit, growth. Investors care about beating or missing expectations. "Buy the rumor, sell the news."', display_order: 3 },
+        { topic_slug: 'market-sentiment', subtopic: 'Fear vs Greed', explanation: 'Market sentiment is the mood of the market — driven by fear and greed. When greed dominates, prices go up. When fear dominates, prices crash.', display_order: 1 },
+        { topic_slug: 'market-sentiment', subtopic: 'Hype Cycles', explanation: 'Starts with genuine innovation, gets amplified by media, reaches euphoria, then crashes back to reality. One of the most dangerous forces in investing.', display_order: 2 },
+        { topic_slug: 'market-sentiment', subtopic: 'Social Media Influence', explanation: 'Social media has completely changed how markets behave. A single tweet can move stocks. It amplifies both good insights and terrible advice equally.', display_order: 3 },
+        { topic_slug: 'currency-exchange-rates', subtopic: 'Strong vs Weak Dollar', explanation: 'A strong dollar means American imports are cheaper but exports are more expensive for foreign buyers. Exchange rates affect global trade.', display_order: 1 },
+        { topic_slug: 'currency-exchange-rates', subtopic: 'How Currency Affects Companies', explanation: 'Currency directly affects company earnings, especially for multinationals. A strong dollar reduces the value of overseas revenue.', display_order: 2 },
+        { topic_slug: 'currency-exchange-rates', subtopic: 'Impact on Investors', explanation: 'A strong dollar can attract foreign investment into US markets, while a weak dollar can boost US exports and international stock performance.', display_order: 3 },
+        { topic_slug: 'inflation-economy', subtopic: 'Inflation Basics', explanation: 'Inflation is when prices go up over time, meaning each dollar buys less. The Fed targets about 2% inflation per year.', display_order: 1 },
+        { topic_slug: 'inflation-economy', subtopic: 'Consumer Spending Impact', explanation: 'The US economy runs on consumer spending — about 70% of activity. When people spend less, businesses earn less, which can trigger recession.', display_order: 2 },
+        { topic_slug: 'inflation-economy', subtopic: 'Business Costs Rising', explanation: 'When inflation rises, costs for raw materials, labor, and shipping increase. Companies either absorb the cost or pass it to consumers.', display_order: 3 },
+      ],
+      quiz_questions: [
+        { topic_slug: 'how-money-flows', question: 'You just got your first paycheck of $3,000. What\'s the smartest first move?', options: 'Treat yourself to something nice — you earned it|Figure out your monthly expenses first, then decide what\'s left|Put it all in a savings account immediately|Invest the entire amount in stocks', answer: 'Figure out your monthly expenses first, then decide what\'s left', explanation: 'Cash flow starts with understanding what comes in and what goes out.', display_order: 1 },
+        { topic_slug: 'how-money-flows', question: 'What\'s the difference between positive and negative cash flow?', options: 'Positive means you earned money, negative means you lost in stocks|Positive means more income than expenses, negative means spending more than earning|They\'re the same thing|Positive means savings, negative means investments', answer: 'Positive means more income than expenses, negative means spending more than earning', explanation: 'Positive cash flow = money left after expenses. Negative = spending more than you make.', display_order: 2 },
+        { topic_slug: 'how-money-flows', question: 'Monthly income: $4,000. Rent $1,200, food $400, subs $100, other $800. Cash flow?', options: '$4,000|$1,500|$2,500|-$500', answer: '$1,500', explanation: '$4,000 - $1,200 - $400 - $100 - $800 = $1,500 positive cash flow.', display_order: 3 },
+        { topic_slug: 'how-money-flows', question: 'Which of these is a fixed expense?', options: 'Groceries|Monthly rent payment|Concert tickets|Uber rides', answer: 'Monthly rent payment', explanation: 'Fixed expenses stay the same every month — rent, car payments, insurance.', display_order: 4 },
+        { topic_slug: 'how-money-flows', question: 'Why is tracking your cash flow important?', options: 'Only important if in debt|It helps you see patterns and make smarter decisions|Banks require it|Not important — just earn more', answer: 'It helps you see patterns and make smarter decisions', explanation: 'Tracking reveals spending patterns you didn\'t know existed.', display_order: 5 },
+        { topic_slug: 'spending-psychology', question: 'You see a jacket on sale for 50% off. You didn\'t plan to buy it. What\'s the real cost?', options: 'Half the original price — great deal!|The full sale price — money you hadn\'t planned to spend|Nothing — sales save money|Only the difference from original', answer: 'The full sale price — money you hadn\'t planned to spend', explanation: 'A discount on something you don\'t need isn\'t a saving — it\'s spending.', display_order: 1 },
+        { topic_slug: 'spending-psychology', question: 'The "Latte Effect" refers to:', options: 'Long-term cost of small daily purchases adding up|Energy boost from caffeine|A stock market strategy|Effect of coffee prices on inflation', answer: 'Long-term cost of small daily purchases adding up', explanation: 'A $5 daily coffee = $1,825/year. Invested over 30 years at 10%, that\'s over $300,000.', display_order: 2 },
+        { topic_slug: 'spending-psychology', question: 'What\'s the 24-hour rule for spending?', options: 'Check your bank every 24 hours|Wait 24 hours before non-essential purchases to avoid impulse buying|Stores must give 24-hour refunds|Only shop during 24-hour sales', answer: 'Wait 24 hours before non-essential purchases to avoid impulse buying', explanation: 'The 24-hour rule gives your rational brain time to override impulse emotions.', display_order: 3 },
+        { topic_slug: 'spending-psychology', question: 'Retailers use "anchoring" in pricing. What does this mean?', options: 'They anchor products to shelves|Show a high original price to make the sale price seem amazing|Anchor prices to competitors|Never change prices', answer: 'Show a high original price to make the sale price seem amazing', explanation: 'Anchoring: your brain compares to the high anchor, not whether you need the item.', display_order: 4 },
+        { topic_slug: 'spending-psychology', question: 'Which spending habit destroys the MOST wealth over time?', options: 'Buying expensive things occasionally|Small recurring subscriptions you forget about|Shopping at premium stores|Buying used instead of new', answer: 'Small recurring subscriptions you forget about', explanation: 'Forgotten subscriptions are silent wealth killers — most people have $200+/month unused.', display_order: 5 },
+        { topic_slug: 'why-investing-matters', question: 'Why invest instead of just saving?', options: 'Investing is gambling|Investing grows wealth faster through compound returns|Savings always pay more|Only invest if you\'re rich', answer: 'Investing grows wealth faster through compound returns', explanation: 'Savings earn 1-4%, the stock market averages ~10% per year. Over decades, compounding makes that difference massive.', display_order: 1 },
+        { topic_slug: 'why-investing-matters', question: 'What is compound interest?', options: 'A bank fee|You earn returns on your returns — exponential growth|Only works with $100K+|A myth — money grows linearly', answer: 'You earn returns on your returns — exponential growth', explanation: '$10,000 at 10% → $11,000 → $12,100 → $13,310. The snowball effect is real.', display_order: 2 },
+        { topic_slug: 'why-investing-matters', question: '$1,000 at 10% return, roughly how much after 30 years?', options: '$4,000|$10,000|About $17,450|$1,300', answer: 'About $17,450', explanation: '$1,000 × 1.10^30 ≈ $17,450. That\'s 17x your investment from compound growth.', display_order: 3 },
+        { topic_slug: 'why-investing-matters', question: 'What should you do BEFORE investing?', options: 'Jump in immediately|Set financial goals and know your timeline|Wait until you\'re an expert|Watch 100 YouTube videos first', answer: 'Set financial goals and know your timeline', explanation: 'Goals determine strategy. A 30-year retirement fund looks different from a 5-year house deposit.', display_order: 4 },
+        { topic_slug: 'why-investing-matters', question: 'Key benefit of starting to invest early?', options: 'You get discounts on stocks|More time for compounding means small amounts grow significantly|Young people get better rates|No advantage to starting early', answer: 'More time for compounding means small amounts grow significantly', explanation: '$200/month from age 25 can beat $400/month from age 35 — 10 more years of compounding.', display_order: 5 },
+        { topic_slug: 'stock-market-history', question: 'Before stock markets, how did merchants fund trade voyages?', options: 'Credit cards|Pooled money with others to share risk and reward|Government paid|Sold their houses', answer: 'Pooled money with others to share risk and reward', explanation: 'Pooling money was the original reason for creating shares.', display_order: 1 },
+        { topic_slug: 'stock-market-history', question: 'What was the Dutch East India Company famous for?', options: 'Inventing the internet|First company to issue stock to the public (1602)|Creating the first bank|Building the first factory', answer: 'First company to issue stock to the public (1602)', explanation: 'The VOC let ordinary people buy shares and profit from trade voyages — the birth of modern investing.', display_order: 2 },
+        { topic_slug: 'stock-market-history', question: 'Why were stock exchanges created?', options: 'Entertainment|So share owners could buy and sell, getting money back anytime|Government mandated|To replace banks', answer: 'So share owners could buy and sell, getting money back anytime', explanation: 'Exchanges created liquidity — the ability to cash out whenever you want.', display_order: 3 },
+        { topic_slug: 'stock-market-history', question: 'What problem did sharing risk through stocks solve?', options: 'Made everyone rich|No single person had to risk everything — losses and gains were shared|Eliminated all risk|Made trade voyages faster', answer: 'No single person had to risk everything — losses and gains were shared', explanation: 'Before stocks, one bad voyage could bankrupt a merchant. Shared ownership = shared risk.', display_order: 4 },
+        { topic_slug: 'stock-market-history', question: 'How is today\'s stock market the same as 400 years ago?', options: 'Same technology|People still pool money into businesses and trade ownership — only speed changed|Completely different|Run by the same families', answer: 'People still pool money into businesses and trade ownership — only speed changed', explanation: 'The core concept hasn\'t changed: buy ownership, share risks/rewards, trade on an exchange.', display_order: 5 },
+        { topic_slug: 'news-moves-stocks', question: 'Company reports record profits but stock drops 5%. Why?', options: 'Market is broken|Investors expected even higher profits|Profits don\'t matter|Someone manipulated it', answer: 'Investors expected even higher profits', explanation: 'Stocks move based on expectations. Record profits can disappoint if investors expected more.', display_order: 1 },
+        { topic_slug: 'news-moves-stocks', question: 'What matters MORE for stock price movement?', options: 'The news itself|How the news compares to expectations|Time of day|Which channel reports first', answer: 'How the news compares to expectations', explanation: 'Markets are forward-looking. Expectation is everything.', display_order: 2 },
+        { topic_slug: 'news-moves-stocks', question: 'What are earnings announcements?', options: 'Company going public|Quarterly report cards showing revenue, profit, growth|Annual awards|Government reports', answer: 'Quarterly report cards showing revenue, profit, growth', explanation: 'The most important events for individual stock prices — showing if a company is healthy.', display_order: 3 },
+        { topic_slug: 'news-moves-stocks', question: '"Buy the rumor, sell the news" means:', options: 'Always buy on rumors|Prices often rise on anticipation and fall when news drops|Rumors are more reliable|Only invest on rumors', answer: 'Prices often rise on anticipation and fall when news drops', explanation: 'Early buyers take profits when news drops — no more upside surprise.', display_order: 4 },
+        { topic_slug: 'news-moves-stocks', question: 'Breaking: Country X imposes tariffs on US goods. Short-term effect?', options: 'US market rises|No impact|US companies selling to Country X likely drop|Only crypto affected', answer: 'US companies selling to Country X likely drop', explanation: 'Tariffs make US exports more expensive, potentially reducing sales. Markets price this in immediately.', display_order: 5 },
+      ]
+    };
+
+    // ============================================================
+    // DATA LAYER
+    // ============================================================
+    async function fetchTopics() {
+      if (useSupabase) { const { data, error } = await sb.from('topics').select('*').order('display_order'); if (!error && data && data.length) return data; }
+      return FALLBACK.topics;
+    }
+    async function fetchLearning(slug) {
+      let lessons = null;
+      if (useSupabase) {
+        const { data, error } = await sb.from('learning_content').select('*').eq('topic_slug', slug).order('display_order');
+        if (!error && data && data.length) lessons = data;
+      }
+      if (!lessons) lessons = FALLBACK.learning_content.filter(l => l.topic_slug === slug);
+      // Deduplicate by subtopic name to prevent repeated pages
+      const seen = new Set();
+      return lessons.filter(l => {
+        const key = (l.subtopic || '').trim().toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+    async function fetchQuiz(slug) {
+      if (useSupabase) { const { data, error } = await sb.from('quiz_questions').select('*').eq('topic_slug', slug).order('display_order'); if (!error && data && data.length) return data; }
+      return FALLBACK.quiz_questions.filter(q => q.topic_slug === slug);
+    }
+
+    // ============================================================
+    // STATE
+    // ============================================================
+    const DS = { coins: 0, xp: 0, streak: 0, energy: 10, lastEnergyDrain: null, readTopics: [], doneTopics: [], readProgress: {}, quizScores: {}, hasSubscribed: false };
+    const ENERGY_MAX = 10;
+    const ENERGY_REGEN_MS = 5 * 60 * 1000; // 5 minutes per bar
+    let energyRegenInterval = null;
+
+    let S = (() => {
+      try {
+        const d = localStorage.getItem('mammth-learn');
+        if (d) {
+          const parsed = { ...DS, ...JSON.parse(d) };
+          if (!Array.isArray(parsed.readTopics)) parsed.readTopics = [];
+          if (typeof parsed.energy !== 'number') parsed.energy = ENERGY_MAX;
+          if (parsed.energy > ENERGY_MAX) parsed.energy = ENERGY_MAX;
+          if (parsed.lastEnergyDrain && typeof parsed.lastEnergyDrain === 'number') {
+            // Recover energy based on time elapsed since last drain
+            const elapsed = Date.now() - parsed.lastEnergyDrain;
+            const barsRecovered = Math.floor(elapsed / ENERGY_REGEN_MS);
+            if (barsRecovered > 0 && parsed.energy < ENERGY_MAX) {
+              parsed.energy = Math.min(ENERGY_MAX, parsed.energy + barsRecovered);
+              // Advance the timestamp by the bars we recovered
+              parsed.lastEnergyDrain = parsed.lastEnergyDrain + (barsRecovered * ENERGY_REGEN_MS);
+              if (parsed.energy >= ENERGY_MAX) parsed.lastEnergyDrain = null;
+            }
+          }
+          return parsed;
+        }
+        return { ...DS };
+      } catch (e) { return { ...DS }; }
+    })();
+    // localStorage write only — used internally and after server hydration
+    // to avoid bouncing the same data back to the server.
+    function saveLocal() { try { localStorage.setItem('mammth-learn', JSON.stringify(S)); } catch (e) { } }
+
+    // Public save: writes locally AND schedules a debounced push to Supabase.
+    function saveState() {
+      saveLocal();
+      schedulePushUserProgress();
+    }
+
+    // ============================================================
+    // PROGRESS SYNC (Supabase)
+    // ============================================================
+    let userProgressPushTimer = null;
+    let serverHydrating = false; // suppress writes while we're loading from server
+
+    function schedulePushUserProgress() {
+      if (!sb || !CURRENT_USER_ID || serverHydrating) return;
+      clearTimeout(userProgressPushTimer);
+      userProgressPushTimer = setTimeout(pushUserProgress, 800);
+    }
+
+    async function pushUserProgress() {
+      if (!sb || !CURRENT_USER_ID) return;
+      // NOTE: has_subscribed is intentionally not written here. Paywall
+      // state lives in the `entitlements` table and is set server-side
+      // by the Stripe webhook only.
+      const { error } = await sb.from('user_progress').upsert({
+        user_id: CURRENT_USER_ID,
+        coins: S.coins,
+        energy: S.energy,
+        last_energy_drain: S.lastEnergyDrain ? new Date(S.lastEnergyDrain).toISOString() : null,
+      }, { onConflict: 'user_id' });
+      if (error) console.warn('user_progress upsert error:', error.message);
+    }
+
+    // Fire-and-forget per-topic upsert. `patch` only needs the columns that
+    // actually changed; others are left as-is by the database.
+    function upsertTopicProgress(slug, patch) {
+      if (!sb || !CURRENT_USER_ID || serverHydrating) return;
+      sb.from('topic_progress').upsert({
+        user_id: CURRENT_USER_ID,
+        topic_slug: slug,
+        ...patch,
+      }, { onConflict: 'user_id,topic_slug' }).then(({ error }) => {
+        if (error) console.warn('topic_progress upsert error:', error.message);
+      });
+    }
+
+    async function loadServerState() {
+      if (!sb || !CURRENT_USER_ID) return;
+      serverHydrating = true;
+      try {
+        const [progRes, topicsRes, entRes] = await Promise.all([
+          sb.from('user_progress').select('*').eq('user_id', CURRENT_USER_ID).maybeSingle(),
+          sb.from('topic_progress').select('*').eq('user_id', CURRENT_USER_ID),
+          sb.from('entitlements').select('is_paid').eq('user_id', CURRENT_USER_ID).maybeSingle(),
+        ]);
+
+        const prog = progRes.data;
+        const topics = topicsRes.data || [];
+        const ent = entRes.data;
+
+        // First sign-in detection: server row is at defaults AND no per-topic
+        // rows yet. If local has progress, push it up once as a seed.
+        const isFreshServer = (!prog || (prog.coins === 0 && !prog.last_energy_drain
+          && prog.energy === ENERGY_MAX))
+          && topics.length === 0;
+
+        const localHasData = (S.coins > 0)
+          || (Array.isArray(S.doneTopics) && S.doneTopics.length > 0)
+          || (Array.isArray(S.readTopics) && S.readTopics.length > 0)
+          || S.hasSubscribed
+          || (S.readProgress && Object.keys(S.readProgress).length > 0)
+          || (S.quizScores && Object.keys(S.quizScores).length > 0);
+
+        if (isFreshServer && localHasData) {
+          serverHydrating = false;
+          await seedServerFromLocal();
+          return;
+        }
+
+        // Server wins: hydrate S from server data.
+        if (prog) {
+          S.coins = prog.coins;
+          S.energy = Math.min(ENERGY_MAX, prog.energy);
+          S.lastEnergyDrain = prog.last_energy_drain
+            ? new Date(prog.last_energy_drain).getTime() : null;
+        }
+        // Paywall state comes from the server-only `entitlements` table.
+        // Never trust local cache or URL params for this.
+        S.hasSubscribed = !!(ent && ent.is_paid);
+        S.readTopics = topics.filter(t => t.read_completed_at).map(t => t.topic_slug);
+        S.doneTopics = topics.filter(t => t.done_completed_at).map(t => t.topic_slug);
+        S.readProgress = Object.fromEntries(topics.map(t => [t.topic_slug, t.read_page || 0]));
+        S.quizScores = Object.fromEntries(
+          topics.filter(t => t.quiz_score != null && t.quiz_total)
+            .map(t => [t.topic_slug, Math.round((t.quiz_score / t.quiz_total) * 100)])
+        );
+
+        saveLocal();
+      } finally {
+        serverHydrating = false;
+      }
+
+      if (typeof updateStats === 'function') updateStats();
+      if (typeof updateLearnCtaButton === 'function') updateLearnCtaButton();
+      if (document.getElementById('screen-learn')?.classList.contains('active')
+        && typeof renderLearn === 'function') {
+        renderLearn();
+      }
+      // Resume energy regen tick if we landed mid-recharge.
+      if (S.energy < ENERGY_MAX && S.lastEnergyDrain && typeof startEnergyRegen === 'function') {
+        startEnergyRegen();
+      }
+    }
+
+    async function seedServerFromLocal() {
+      if (!sb || !CURRENT_USER_ID) return;
+      // has_subscribed deliberately omitted — paywall is server-controlled.
+      await sb.from('user_progress').upsert({
+        user_id: CURRENT_USER_ID,
+        coins: S.coins,
+        energy: S.energy,
+        last_energy_drain: S.lastEnergyDrain ? new Date(S.lastEnergyDrain).toISOString() : null,
+      }, { onConflict: 'user_id' });
+
+      const slugs = new Set([
+        ...(S.readTopics || []),
+        ...(S.doneTopics || []),
+        ...Object.keys(S.readProgress || {}),
+        ...Object.keys(S.quizScores || {}),
+      ]);
+      const now = new Date().toISOString();
+      const rows = [...slugs].map(slug => {
+        const isRead = (S.readTopics || []).includes(slug);
+        const isDone = (S.doneTopics || []).includes(slug);
+        const acc = S.quizScores ? S.quizScores[slug] : null;
+        return {
+          user_id: CURRENT_USER_ID,
+          topic_slug: slug,
+          read_page: (S.readProgress && S.readProgress[slug]) || 0,
+          read_completed_at: isRead ? now : null,
+          done_completed_at: isDone ? now : null,
+          // Local only stored accuracy 0–100; encode it as score/total = acc/100
+          quiz_score: acc != null ? Math.round(acc) : null,
+          quiz_total: acc != null ? 100 : null,
+        };
+      });
+      if (rows.length) {
+        const { error } = await sb.from('topic_progress').upsert(rows, { onConflict: 'user_id,topic_slug' });
+        if (error) console.warn('topic_progress seed error:', error.message);
+      }
+    }
+
+    // Drain energy and record timestamp
+    function drainEnergy(amount) {
+      S.energy = Math.max(0, S.energy - amount);
+      if (S.energy < ENERGY_MAX && !S.lastEnergyDrain) {
+        S.lastEnergyDrain = Date.now();
+      }
+      saveState();
+      updateStats();
+      startEnergyRegen();
+    }
+
+    // Energy regen tick — runs every 10 seconds for smooth countdown
+    function startEnergyRegen() {
+      if (energyRegenInterval) return; // already running
+      if (S.energy >= ENERGY_MAX) return; // full, no need
+
+      energyRegenInterval = setInterval(() => {
+        if (S.energy >= ENERGY_MAX || !S.lastEnergyDrain) {
+          clearInterval(energyRegenInterval);
+          energyRegenInterval = null;
+          S.lastEnergyDrain = null;
+          saveState();
+          updateStats();
+          return;
+        }
+
+        const elapsed = Date.now() - S.lastEnergyDrain;
+        const barsToRecover = Math.floor(elapsed / ENERGY_REGEN_MS);
+
+        if (barsToRecover > 0) {
+          S.energy = Math.min(ENERGY_MAX, S.energy + barsToRecover);
+          S.lastEnergyDrain = S.lastEnergyDrain + (barsToRecover * ENERGY_REGEN_MS);
+          if (S.energy >= ENERGY_MAX) S.lastEnergyDrain = null;
+          saveState();
+          // Re-render learn screen if visible to update unlock states
+          if (document.getElementById('screen-learn')?.classList.contains('active')) renderLearn();
+        }
+
+        updateStats(); // always update for countdown timer
+      }, 10000); // tick every 10 seconds
+    }
+
+    function getNextBarCountdown() {
+      if (S.energy >= ENERGY_MAX || !S.lastEnergyDrain) return null;
+      const elapsed = Date.now() - S.lastEnergyDrain;
+      const remaining = ENERGY_REGEN_MS - (elapsed % ENERGY_REGEN_MS);
+      return remaining;
+    }
+
+    function formatCountdown(ms) {
+      const totalSec = Math.ceil(ms / 1000);
+      const min = Math.floor(totalSec / 60);
+      const sec = totalSec % 60;
+      return `${min}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    // ============================================================
+    // GLOBALS
+    // ============================================================
+    let allTopics = [];
+    let currentCategory = null;
+    let CT = null;
+    let CQ = null;
+
+    // Category-specific SVG icon getters
+    function getCategoryIcon(cat) {
+      const icons = {
+        'Control Money': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+        'Grow Money': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg>',
+        'Understand Why Money Moves': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      };
+      return icons[cat] || '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
+    }
+
+    // Topic icon based on category and index — clean SVG icons
+    const TOPIC_SVGS = [
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 4H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    ];
+
+    // ============================================================
+    // SCREEN NAVIGATION
+    // ============================================================
+    function showScreen(id) {
+      document.querySelectorAll('.app-screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) el.classList.add('active');
+    }
+    function updateStats() {
+      document.getElementById('d-coins').textContent = S.coins;
+      document.getElementById('d-energy').textContent = S.energy;
+      renderEnergyCapsules();
+      renderEnergyTimer();
+    }
+    function renderEnergyCapsules() {
+      const container = document.getElementById('energy-capsules');
+      if (!container) return;
+      const total = ENERGY_MAX, filled = Math.max(0, Math.min(total, S.energy));
+      let html = '';
+      for (let i = 0; i < total; i++) {
+        const isFilled = i < filled;
+        const isNext = i === filled && S.energy < ENERGY_MAX; // next bar to fill
+        html += `<div class="e-cap${isFilled ? ' filled' : ''}${isNext ? ' recharging' : ''}"></div>`;
+      }
+      container.innerHTML = html;
+      // Add low-energy glow when very low
+      const wrap = document.getElementById('energy-stat-wrap');
+      if (wrap) {
+        wrap.classList.toggle('low', S.energy <= 5);
+        wrap.classList.toggle('empty', S.energy === 0);
+      }
+      updateBuyChip();
+    }
+    function renderEnergyTimer() {
+      const timerEl = document.getElementById('energy-timer');
+      if (!timerEl) return;
+      const cd = getNextBarCountdown();
+      if (cd !== null) {
+        timerEl.textContent = formatCountdown(cd);
+        timerEl.style.display = 'inline';
+      } else {
+        timerEl.style.display = 'none';
+      }
+      // Also update overlay timer if visible
+      const overlayTimer = document.getElementById('energy-overlay-timer');
+      if (overlayTimer && cd !== null) {
+        overlayTimer.textContent = formatCountdown(cd);
+      }
+      // Update overlay bars
+      const overlayBars = document.getElementById('energy-overlay-bars');
+      if (overlayBars) {
+        let html = '';
+        for (let i = 0; i < ENERGY_MAX; i++) {
+          const isFilled = i < S.energy;
+          const isNext = i === S.energy && S.energy < ENERGY_MAX;
+          html += `<div class="eo-bar${isFilled ? ' filled' : ''}${isNext ? ' recharging' : ''}"></div>`;
+        }
+        overlayBars.innerHTML = html;
+      }
+      // Update overlay buy button state
+      const overlayBuyBtn = document.getElementById('energy-buy-overlay');
+      if (overlayBuyBtn) {
+        const canBuy = S.coins >= 200 && S.energy < ENERGY_MAX;
+        overlayBuyBtn.disabled = !canBuy;
+        overlayBuyBtn.classList.toggle('disabled', !canBuy);
+      }
+    }
+    function showEnergyOverlay() {
+      const overlay = document.getElementById('energy-overlay');
+      overlay.classList.add('show');
+      const wrap = document.getElementById('energy-stat-wrap');
+      if (wrap) wrap.classList.add('pulse-alert');
+      updateStats(); // refresh buy button state
+    }
+    function closeEnergyOverlay() {
+      document.getElementById('energy-overlay').classList.remove('show');
+      const wrap = document.getElementById('energy-stat-wrap');
+      if (wrap) wrap.classList.remove('pulse-alert');
+    }
+    function buyEnergy() {
+      if (S.coins < 200) {
+        showToast(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M15 9.5c0-1.38-1.34-2.5-3-2.5s-3 1.12-3 2.5 1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5"/></svg> Not enough coins! You need <strong>200 coins</strong> to buy 5 energy.`, 'locked');
+        return;
+      }
+      if (S.energy >= ENERGY_MAX) {
+        showToast(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Energy already full!`, 'info');
+        return;
+      }
+      S.coins -= 200;
+      S.energy = Math.min(ENERGY_MAX, S.energy + 5);
+      if (S.energy >= ENERGY_MAX) S.lastEnergyDrain = null;
+      saveState();
+      updateStats();
+      showToast(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> <strong>+5 energy</strong> purchased for 200 coins!`, 'info');
+      if (document.getElementById('screen-learn')?.classList.contains('active')) renderLearn();
+    }
+    function updateBuyChip() {
+      const chip = document.getElementById('buy-energy-chip');
+      if (!chip) return;
+      const canBuy = S.coins >= 200 && S.energy < ENERGY_MAX;
+      chip.style.display = S.energy < ENERGY_MAX ? 'flex' : 'none';
+      chip.disabled = !canBuy;
+      chip.classList.toggle('affordable', canBuy);
+    }
+    function showToast(msg, type) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + (type || 'info');
+      toast.innerHTML = msg;
+      container.appendChild(toast);
+      setTimeout(() => { toast.classList.add('fade-out'); setTimeout(() => toast.remove(), 400); }, 3500);
+    }
+
+    // ============================================================
+    // HOME ↔ APP TRANSITIONS
+    // ============================================================
+    function startLearning() {
+      // Check if user is signed in with Google
+      const gUser = getGoogleUser();
+      if (!gUser) {
+        showGoogleAuthOverlay();
+        return;
+      }
+      document.getElementById('app-section').classList.add('active');
+      document.getElementById('site-nav').classList.add('scrolled');
+      localStorage.setItem('mammth-started', '1');
+      updateUserDisplay();
+      updateLearnCtaButton();
+      // Start energy regen if not full
+      if (S.energy < ENERGY_MAX && S.lastEnergyDrain) startEnergyRegen();
+      // Load topics data, then show the catalog
+      loadCatalogScreen();
+    }
+    function goHome(e) {
+      if (e) e.preventDefault();
+      window.location.href = 'index.html';
+    }
+    // Stub — no home-page CTA elements exist on this page
+    function updateLearnCtaButton() { }
+
+
+
+    // Context-aware back button: lesson/quiz/paywall → learn screen, learn screen → catalog, catalog → home
+    function appBack() {
+      const readActive = document.getElementById('screen-read')?.classList.contains('active');
+      const quizActive = document.getElementById('screen-quiz')?.classList.contains('active');
+      const resultsActive = document.getElementById('screen-results')?.classList.contains('active');
+      const paywallActive = document.getElementById('screen-paywall')?.classList.contains('active');
+      const learnActive = document.getElementById('screen-learn')?.classList.contains('active');
+      if (readActive || quizActive || resultsActive || paywallActive) {
+        if (readActive) CT = null;
+        if (quizActive) CQ = null;
+        goLearnScreen();
+      } else if (learnActive) {
+        loadCatalogScreen();
+      } else {
+        goHome();
+      }
+    }
+
+    // ============================================================
+    // COURSE CATALOG SCREEN
+    // ============================================================
+    const CATALOG_META = {
+      'Control Money': {
+        image: 'assets/course-control-money.png',
+        desc: 'Master the fundamentals of managing your personal finances — from budgeting and saving to credit and spending psychology.',
+        gradient: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)'
+      },
+      'Grow Money': {
+        image: 'assets/course-grow-money.png',
+        desc: 'Learn how to grow your wealth through smart investing — stocks, bonds, ETFs, dividends, and compound growth.',
+        gradient: 'linear-gradient(135deg, #059669 0%, #10B981 100%)'
+      },
+      'Understand Why Money Moves': {
+        image: 'assets/course-understand-money.png',
+        desc: 'Decode the forces that drive markets — news, sentiment, inflation, currency, and the history of stock exchanges.',
+        gradient: 'linear-gradient(135deg, #2563EB 0%, #3B82F6 100%)'
+      }
+    };
+
+    async function loadCatalogScreen() {
+      showScreen('screen-catalog');
+      updateStats();
+      if (!allTopics.length) allTopics = await fetchTopics();
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const grid = document.getElementById('catalog-grid');
+      grid.innerHTML = '';
+      const cats = [...new Set(allTopics.map(t => t.category))];
+
+      cats.forEach((cat, idx) => {
+        const meta = CATALOG_META[cat] || { image: '', desc: 'Explore this learning path.', gradient: 'linear-gradient(135deg, #7C3AED, #C026D3)' };
+        const catTopics = allTopics.filter(t => t.category === cat);
+        const totalLessons = catTopics.length;
+        const completedLessons = catTopics.filter(t => S.doneTopics.includes(t.topic_slug)).length;
+        const progressPct = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+        const hasStarted = catTopics.some(t => S.doneTopics.includes(t.topic_slug) || S.readTopics.includes(t.topic_slug) || S.readProgress[t.topic_slug]);
+        const isComplete = completedLessons === totalLessons && totalLessons > 0;
+
+        let btnLabel = 'Start Course';
+        let btnIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21 5,3"/></svg>';
+        let btnClass = 'catalog-card-btn';
+        if (isComplete) {
+          btnLabel = 'Completed';
+          btnIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+          btnClass += ' completed';
+        } else if (hasStarted) {
+          btnLabel = 'Continue';
+          btnIcon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>';
+          btnClass += ' continue';
+        }
+
+        const card = document.createElement('div');
+        card.className = 'catalog-card';
+        card.style.animationDelay = `${idx * 0.1}s`;
+        card.innerHTML = `
+          <div class="catalog-card-img">
+            <img src="${meta.image}" alt="${cat}" />
+            <div class="catalog-card-overlay"></div>
+          </div>
+          <div class="catalog-card-body">
+            <h3 class="catalog-card-title">${cat}</h3>
+            <p class="catalog-card-desc">${meta.desc}</p>
+            <div class="catalog-card-meta">
+              <span class="catalog-card-lessons">${totalLessons} lessons</span>
+              ${progressPct > 0 ? `<span class="catalog-card-progress-badge">${progressPct}% complete</span>` : ''}
+            </div>
+            ${progressPct > 0 ? `<div class="catalog-card-bar"><div class="catalog-card-bar-fill" style="width:${progressPct}%"></div></div>` : ''}
+            <button class="${btnClass}" onclick="openCategory('${cat}')">
+              ${btnIcon}
+              <span>${btnLabel}</span>
+            </button>
+          </div>
+        `;
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('.catalog-card-btn')) openCategory(cat);
+        });
+        grid.appendChild(card);
+      });
+    }
+
+    function openCategory(cat) {
+      currentCategory = cat;
+      loadLearnScreen();
+    }
+
+    // ============================================================
+    // LEARN SCREEN
+    // ============================================================
+    async function loadLearnScreen() {
+      showScreen('screen-learn');
+      updateStats();
+      document.getElementById('topics-body').innerHTML = '<div class="loading-state"><div class="spinner"></div></div>';
+      if (!allTopics.length) allTopics = await fetchTopics();
+      renderLearn();
+    }
+    function goLearnScreen() { showScreen('screen-learn'); updateStats(); renderLearn(); }
+
+    // Helpers — three states:
+    //   1) UNLOCKED: free first lesson in a category, OR (subscribed AND prev done)
+    //   2) PREMIUM-LOCKED: not subscribed, and not the first lesson in this category
+    //   3) SEQUENCE-LOCKED: subscribed but the previous lesson hasn't been completed yet
+    function getCategoryIndex(topic) {
+      const catTopics = allTopics.filter(t => t.category === topic.category);
+      return catTopics.findIndex(t => t.topic_slug === topic.topic_slug);
+    }
+    function isFreePreview(topic) {
+      // The very first lesson of every category is free — no subscription required.
+      return getCategoryIndex(topic) === 0;
+    }
+    function isPremiumLocked(topic) {
+      // Locked because the user hasn't subscribed. The first lesson per category is free.
+      if (S.hasSubscribed) return false;
+      return getCategoryIndex(topic) > 0;
+    }
+    function isTopicUnlocked(topic) {
+      const idx = getCategoryIndex(topic);
+      if (idx <= 0) return true; // free preview
+      if (!S.hasSubscribed) return false; // premium-gated
+      // subscribed: keep the original sequence behavior (must complete prev)
+      const catTopics = allTopics.filter(t => t.category === topic.category);
+      const prevTopic = catTopics[idx - 1];
+      return S.doneTopics.includes(prevTopic.topic_slug);
+    }
+    function getPreviousTopicName(topic) {
+      const catTopics = allTopics.filter(t => t.category === topic.category);
+      const idx = catTopics.findIndex(t => t.topic_slug === topic.topic_slug);
+      if (idx <= 0) return null;
+      return catTopics[idx - 1].topic_name;
+    }
+    // Programmatic entry into the paywall — used from the Learn screen, locked
+    // lesson cards, and from the results screen after a free lesson.
+    function showPaywall() {
+      showScreen('screen-paywall');
+      // Reset checkout button in case it was disabled by a prior attempt
+      const btn = document.getElementById('stripe-checkout-btn');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `
+          Start 7-Day Free Trial
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12,5 19,12 12,19"/>
+          </svg>`;
+      }
+    }
+
+    function renderLearn() {
+      const cats = [...new Set(allTopics.map(t => t.category))];
+      if (!cats.includes(currentCategory)) {
+        currentCategory = cats[0];
+      }
+
+      const body = document.getElementById('topics-body');
+      body.innerHTML = '';
+      const filtered = allTopics.filter(t => t.category === currentCategory);
+      document.getElementById('learn-count').textContent = filtered.length + ' Topics';
+
+      const grouped = {};
+      filtered.forEach(t => { if (!grouped[t.category]) grouped[t.category] = []; grouped[t.category].push(t); });
+
+      const catDescriptions = {
+        'Control Money': 'Master the fundamentals of managing your personal finances.',
+        'Grow Money': 'Learn how to grow your wealth through smart investing.',
+        'Understand Why Money Moves': 'Decode the forces that drive markets and economies.'
+      };
+      const catIcons = {
+        'Control Money': '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+        'Grow Money': '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg>',
+        'Understand Why Money Moves': '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+      };
+
+      for (const cat in grouped) {
+        const sec = document.createElement('div');
+        sec.className = 'category-section';
+
+        const doneInCat = grouped[cat].filter(t => S.doneTopics.includes(t.topic_slug)).length;
+        const totalInCat = grouped[cat].length;
+        const progressPct = totalInCat > 0 ? Math.round((doneInCat / totalInCat) * 100) : 0;
+        const catIcon = catIcons[cat] || '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
+        const catDesc = catDescriptions[cat] || 'Explore these topics to level up your knowledge.';
+        const showPremiumBadge = !S.hasSubscribed && totalInCat > 1;
+        const premiumLockedCount = grouped[cat].filter(t => isPremiumLocked(t)).length;
+
+        sec.innerHTML = `
+          <div class="cat-hero-card${showPremiumBadge ? ' has-premium' : ''}">
+            <div class="cat-hero-icon">${catIcon}</div>
+            <div class="cat-hero-info">
+              <div class="cat-hero-name">${cat}</div>
+              <div class="cat-hero-desc">${catDesc}</div>
+            </div>
+            <div class="cat-hero-meta">
+              <span class="cat-hero-meta-left">
+                <span class="cat-hero-count">${totalInCat} lessons</span>
+                ${showPremiumBadge ? `<span class="cat-hero-free">1 free</span>` : ''}
+              </span>
+              <span class="cat-hero-progress">${progressPct}%</span>
+            </div>
+            <div class="cat-hero-bar"><div class="cat-hero-bar-fill" style="width:${progressPct}%"></div></div>
+          </div>
+          <div class="topic-timeline"></div>
+        `;
+
+        const timeline = sec.querySelector('.topic-timeline');
+        let promoInserted = false;
+
+        grouped[cat].forEach((t, idx) => {
+          const isDone = S.doneTopics.includes(t.topic_slug);
+          const isRead = S.readTopics.includes(t.topic_slug);
+          const isInProgress = !isDone && !isRead && S.readProgress[t.topic_slug];
+          const isFree = isFreePreview(t);
+          const premiumLocked = isPremiumLocked(t);
+          const unlocked = isTopicUnlocked(t);
+          const icon = TOPIC_SVGS[(t.display_order - 1) % TOPIC_SVGS.length];
+          const isLast = idx === grouped[cat].length - 1;
+
+          // Insert the "Unlock Full Access" promo card right before the first
+          // premium-locked lesson — only for non-subscribers.
+          if (premiumLocked && !promoInserted) {
+            const upcomingTitles = grouped[cat]
+              .filter(x => isPremiumLocked(x))
+              .map(x => x.topic_name);
+            const promo = buildPremiumPromoCard(cat, premiumLockedCount, upcomingTitles);
+            timeline.appendChild(promo);
+            promoInserted = true;
+          }
+
+          let statusHtml, badgeHtml;
+          if (isDone) {
+            statusHtml = '<span class="tl-done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg> Completed</span>';
+            badgeHtml = '<div class="tl-badge-done"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>';
+          } else if (isRead) {
+            statusHtml = '<span class="tl-read">Lesson read · Take quiz</span>';
+            badgeHtml = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>';
+          } else if (premiumLocked) {
+            statusHtml = '<span class="tl-premium"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg> Premium</span>';
+            badgeHtml = '<div class="tl-badge-premium"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
+          } else if (!unlocked) {
+            statusHtml = '<span class="tl-locked"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Locked</span>';
+            badgeHtml = '<div class="tl-badge-locked"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>';
+          } else if (isInProgress) {
+            statusHtml = '<span class="tl-progress">In progress</span>';
+            badgeHtml = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>';
+          } else if (isFree && !S.hasSubscribed) {
+            statusHtml = '<span class="tl-free">Free preview · Start now</span>';
+            badgeHtml = '<div class="tl-badge-free">FREE</div>';
+          } else {
+            statusHtml = '<span class="tl-new">Start learning</span>';
+            badgeHtml = '<div class="tl-badge-new">NEW</div>';
+          }
+
+          const card = document.createElement('div');
+          let cls = 'tl-item';
+          if (isDone) cls += ' done';
+          if (isLast) cls += ' last';
+          if (premiumLocked) cls += ' premium-locked';
+          else if (!unlocked) cls += ' locked';
+          if (isFree && !S.hasSubscribed && !isDone && !isRead) cls += ' free-preview';
+          card.className = cls;
+          card.innerHTML = `
+            <div class="tl-connector">
+              <div class="tl-dot${isDone ? ' done' : isRead ? ' read' : isInProgress ? ' progress' : premiumLocked ? ' premium' : !unlocked ? ' locked' : ''}"></div>
+              ${!isLast ? '<div class="tl-line"></div>' : ''}
+            </div>
+            <div class="tl-card">
+              <div class="tl-card-icon">${icon}</div>
+              <div class="tl-card-body">
+                <div class="tl-card-title">${t.topic_name}</div>
+                <div class="tl-card-status">${statusHtml}</div>
+              </div>
+              <div class="tl-card-arrow">${badgeHtml}</div>
+            </div>
+          `;
+          card.onclick = () => {
+            if (premiumLocked) {
+              showPaywall();
+              return;
+            }
+            if (!unlocked) {
+              const prev = getPreviousTopicName(t);
+              showToast(`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Complete <strong>"${prev}"</strong> first to unlock this topic.`, 'locked');
+              return;
+            }
+            if (S.energy <= 0) {
+              showEnergyOverlay();
+              return;
+            }
+            if (isRead && !isDone) {
+              startTopicQuiz(t);
+            } else {
+              openTopic(t);
+            }
+          };
+          timeline.appendChild(card);
+        });
+        body.appendChild(sec);
+      }
+    }
+
+    // Beautiful promo card injected between the free first lesson and the
+    // remaining premium-locked lessons. Designed to feel like a natural part of
+    // the learning timeline while clearly communicating the trial offer.
+    function buildPremiumPromoCard(category, lockedCount, upcomingTitles) {
+      const previewLimit = 4;
+      const previewItems = (upcomingTitles || []).slice(0, previewLimit);
+      const moreCount = Math.max(0, (upcomingTitles || []).length - previewLimit);
+      const previewHtml = previewItems.map((title, i) => `
+        <div class="unlock-peek">
+          <span class="unlock-peek-num">${i + 2}</span>
+          <span class="unlock-peek-title">${title}</span>
+          <svg class="unlock-peek-lock" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+      `).join('') + (moreCount > 0 ? `<div class="unlock-peek more">+${moreCount} more lesson${moreCount === 1 ? '' : 's'} in ${category}</div>` : '');
+
+      const wrap = document.createElement('div');
+      wrap.className = 'tl-unlock-promo';
+      wrap.innerHTML = `
+        <div class="unlock-glow"></div>
+        <div class="unlock-shimmer"></div>
+        <div class="unlock-top">
+          <div class="unlock-eyebrow">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+            </svg>
+            <span>Premium</span>
+            <span class="unlock-trial-pill">7 days free</span>
+          </div>
+          <h3 class="unlock-title">Unlock <strong>${lockedCount} more lesson${lockedCount === 1 ? '' : 's'}</strong> in ${category}</h3>
+          <p class="unlock-sub">Continue your journey across all 3 paths — only <strong>$0.99/month</strong> after your free week. Cancel anytime.</p>
+        </div>
+        <div class="unlock-peek-list">${previewHtml}</div>
+        <button class="unlock-cta" type="button">
+          <span>Try Free for 7 Days</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12,5 19,12 12,19"/>
+          </svg>
+        </button>
+        <div class="unlock-foot">
+          <span class="unlock-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg> No commitment</span>
+          <span class="unlock-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg> Cancel in one tap</span>
+          <span class="unlock-check"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg> Stripe secured</span>
+        </div>
+      `;
+      // The whole card and the CTA both open the paywall.
+      wrap.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showPaywall();
+      });
+      return wrap;
+    }
+
+    // ============================================================
+    // READING VIEW — TINDER-STYLE CARD SWIPE ENGINE
+    // ============================================================
+    let swipeDragging = false;
+    let swipeStartX = 0, swipeStartY = 0, swipeDeltaX = 0;
+    let swipeCard = null;
+    let swipeAnimating = false;
+    const SWIPE_THRESHOLD = 80;
+
+    // --- Audio Synthesis ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+    function playWhoosh(type) {
+      if (!window.AudioContext && !window.webkitAudioContext) return;
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // Sine wave creates a very clean, professional "pop/bloop" UI sound
+      osc.type = 'sine';
+
+      if (type === 'next') {
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.exponentialRampToValueAtTime(700, now + 0.12); // Pitch up
+
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.8, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      } else {
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(250, now + 0.12); // Pitch down
+
+        gain.gain.setValueAtTime(0, now);
+        gain.gain.linearRampToValueAtTime(0.8, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      }
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.25);
+    }
+
+    // --- Typewriter Text Engine ---
+    function prepareTypewriter(htmlString) {
+      const div = document.createElement('div');
+      div.innerHTML = htmlString;
+
+      function wrapTextNodes(node) {
+        if (node.nodeType === 3) {
+          const text = node.nodeValue;
+          const frag = document.createDocumentFragment();
+          for (let i = 0; i < text.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'tw-char';
+            span.textContent = text[i];
+            frag.appendChild(span);
+          }
+          node.parentNode.replaceChild(frag, node);
+        } else if (node.nodeType === 1) {
+          Array.from(node.childNodes).forEach(wrapTextNodes);
+        }
+      }
+      Array.from(div.childNodes).forEach(wrapTextNodes);
+      return div.innerHTML;
+    }
+
+    let typewriterTimeout = null;
+    let typewriterRunning = false;
+    let typewriterContainer = null;
+
+    function runTypewriter(container) {
+      if (typewriterTimeout) clearTimeout(typewriterTimeout);
+      if (!container) return;
+      typewriterContainer = container;
+      typewriterRunning = true;
+
+      // Show the skip button
+      const skipBtn = document.getElementById('tw-skip-btn');
+      if (skipBtn) { skipBtn.classList.add('visible'); }
+
+      // Reset any existing chars to 0 opacity
+      const chars = container.querySelectorAll('.tw-char');
+      chars.forEach(c => c.style.opacity = '0');
+
+      let i = 0;
+      function showNext() {
+        if (i < chars.length) {
+          chars[i].style.opacity = '1';
+          i++;
+          // Skip spaces so it feels faster and more natural
+          if (i < chars.length && chars[i - 1].textContent === ' ') {
+            chars[i].style.opacity = '1';
+            i++;
+          }
+        }
+        if (i < chars.length) {
+          typewriterTimeout = setTimeout(showNext, 12);
+        } else {
+          typewriterRunning = false;
+          if (skipBtn) skipBtn.classList.remove('visible');
+        }
+      }
+      // slight delay before starting to let transition settle
+      setTimeout(showNext, 150);
+    }
+
+    function skipTypewriter() {
+      if (!typewriterRunning || !typewriterContainer) return;
+      if (typewriterTimeout) clearTimeout(typewriterTimeout);
+      typewriterTimeout = null;
+      const chars = typewriterContainer.querySelectorAll('.tw-char');
+      chars.forEach(c => c.style.opacity = '1');
+      typewriterRunning = false;
+      const skipBtn = document.getElementById('tw-skip-btn');
+      if (skipBtn) skipBtn.classList.remove('visible');
+    }
+
+    function triggerSwipe(dir) {
+      if (!CT || !swipeCard || swipeAnimating) return;
+      if (dir === 'prev' && CT.page === 0) return;
+
+      playWhoosh(dir);
+      if (dir === 'next') {
+        animateSwipeOut('right', () => readNext(true));
+      } else {
+        animateSwipeOut('left', () => readPrev(true));
+      }
+    }
+
+    async function openTopic(topic) {
+      const lessons = await fetchLearning(topic.topic_slug);
+      if (!lessons || !lessons.length) { showToast('No lessons available for this topic yet.', 'info'); return; }
+      const startPage = (S.doneTopics.includes(topic.topic_slug) || S.readTopics.includes(topic.topic_slug)) ? 0 : (S.readProgress[topic.topic_slug] || 0);
+
+      CT = { topic, lessons, page: startPage, playTypewriterNext: true };
+      showScreen('screen-read');
+      renderSwipeDeck();
+      // Show initial hint animation after a short delay
+      setTimeout(() => playSwipeHint(), 600);
+    }
+
+    function formatLessonText(raw) {
+      return (raw || '')
+        .replace(/\\n\\n/g, '</p><p>')
+        .replace(/\\n/g, '<br>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function buildCardHTML(lesson, idx, tot, isActive = false, shouldTypewrite = true) {
+      const icon = TOPIC_SVGS[(CT.topic.display_order - 1) % TOPIC_SVGS.length];
+      const formatted = formatLessonText(lesson.explanation);
+
+      let contentHtml = `<p>${formatted}</p>`;
+      if (isActive && shouldTypewrite) {
+        contentHtml = prepareTypewriter(contentHtml);
+      } else if (!isActive) {
+        contentHtml = `<div style="opacity:0">${contentHtml}</div>`;
+      }
+
+      const isFirst = idx === 0;
+      const isLast = idx === tot - 1;
+      return `
+        ${(isActive && shouldTypewrite) ? `<img src="assets/MammthLogoTalkBigEyesGIF.gif" class="mammoth-talking-gif" alt="Talking Mammoth" />` : ''}
+        <div class="sc-stamp sc-stamp-next">NEXT →</div>
+        <div class="sc-stamp sc-stamp-prev">← PREV</div>
+        <div class="swipe-card-content">
+          <div class="sc-header">
+            <div class="sc-topic-badge">${CT.topic.topic_name}</div>
+          </div>
+          <div class="sc-icon-wrap"><div class="sc-icon">${icon}</div></div>
+          <div class="sc-title">${lesson.subtopic}</div>
+          <div class="sc-content active-typewriter">${contentHtml}</div>
+          <div class="sc-footer">
+            <div class="sc-swipe-cue" style="justify-content: center;">
+              <span class="sc-cue-center" style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.5px;">Page ${idx + 1} of ${tot}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSwipeDeck() {
+      if (!CT) return;
+      const deck = document.getElementById('swipe-deck');
+      const tot = CT.lessons.length;
+
+      // Update progress bar
+      document.getElementById('read-pfill').style.width = ((CT.page + 1) / tot * 100) + '%';
+      document.getElementById('read-pagenum').textContent = `Page ${CT.page + 1} of ${tot}`;
+
+      // Update buttons
+      const prevBtn = document.getElementById('swipe-btn-prev');
+      prevBtn.style.opacity = CT.page === 0 ? '0.25' : '1';
+      prevBtn.style.pointerEvents = CT.page === 0 ? 'none' : 'auto';
+
+      const nextBtn = document.getElementById('swipe-btn-next');
+      const isLast = CT.page === tot - 1;
+      if (isLast) {
+        nextBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>';
+        nextBtn.classList.add('finish');
+      } else {
+        nextBtn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9,6 15,12 9,18"/></svg>';
+        nextBtn.classList.remove('finish');
+      }
+
+      // Render page dots
+      const dotsEl = document.getElementById('swipe-page-dots');
+      let dotsHTML = '';
+      for (let i = 0; i < tot; i++) {
+        dotsHTML += `<div class="swipe-dot${i === CT.page ? ' active' : i < CT.page ? ' done' : ''}"></div>`;
+      }
+      dotsEl.innerHTML = dotsHTML;
+
+      // Build card stack (show current + next card behind)
+      deck.innerHTML = '';
+
+      // Background cards (max 2 behind for depth)
+      for (let offset = 2; offset >= 1; offset--) {
+        const bgIdx = CT.page + offset;
+        if (bgIdx < tot) {
+          const bgCard = document.createElement('div');
+          bgCard.className = 'swipe-card bg-card';
+          // Alternate rotation for a messy deck effect
+          const rotation = offset === 1 ? -4 : 4;
+          // Set transform origin to bottom center so the bottoms stay aligned and hidden
+          bgCard.style.transformOrigin = 'bottom center';
+          // Move the background cards up slightly so they peek out more from the top
+          bgCard.style.transform = `translateY(-${offset * 12}px) scale(${1 - offset * 0.03}) rotate(${rotation}deg)`;
+          bgCard.style.opacity = 1 - offset * 0.15;
+          bgCard.style.zIndex = 10 - offset;
+          bgCard.innerHTML = buildCardHTML(CT.lessons[bgIdx], bgIdx, tot);
+          deck.appendChild(bgCard);
+        }
+      }
+
+      const shouldTypewrite = CT.playTypewriterNext;
+
+      // Active card (on top)
+      const card = document.createElement('div');
+      card.className = 'swipe-card active-card';
+      card.style.zIndex = 20;
+      card.innerHTML = buildCardHTML(CT.lessons[CT.page], CT.page, tot, true, shouldTypewrite);
+      deck.appendChild(card);
+      swipeCard = card;
+
+      // Prevent the entrance animation from replaying later if other animations (like hint-wobble) are applied and removed
+      setTimeout(() => {
+        if (card) card.classList.remove('active-card');
+      }, 450);
+
+      // Start typewriter on active card
+      if (shouldTypewrite) {
+        runTypewriter(card.querySelector('.active-typewriter'));
+      } else {
+        // No typewriter — make sure skip button is hidden
+        typewriterRunning = false;
+        const skipBtn = document.getElementById('tw-skip-btn');
+        if (skipBtn) skipBtn.classList.remove('visible');
+      }
+
+      // Attach gesture events
+      attachSwipeEvents(card);
+    }
+
+    function attachSwipeEvents(card) {
+      // Mouse events
+      card.addEventListener('mousedown', onSwipeStart);
+      document.addEventListener('mousemove', onSwipeMove);
+      document.addEventListener('mouseup', onSwipeEnd);
+      // Touch events
+      card.addEventListener('touchstart', onSwipeStart, { passive: true });
+      document.addEventListener('touchmove', onSwipeMove, { passive: false });
+      document.addEventListener('touchend', onSwipeEnd);
+    }
+
+    function detachSwipeEvents() {
+      document.removeEventListener('mousemove', onSwipeMove);
+      document.removeEventListener('mouseup', onSwipeEnd);
+      document.removeEventListener('touchmove', onSwipeMove);
+      document.removeEventListener('touchend', onSwipeEnd);
+    }
+
+    function getPointerPos(e) {
+      if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function onSwipeStart(e) {
+      if (swipeAnimating || !swipeCard) return;
+      const pos = getPointerPos(e);
+      swipeDragging = true;
+      swipeStartX = pos.x;
+      swipeStartY = pos.y;
+      swipeDeltaX = 0;
+      swipeCard.style.transition = 'none';
+      swipeCard.classList.add('dragging');
+    }
+
+    function onSwipeMove(e) {
+      if (!swipeDragging || !swipeCard) return;
+      const pos = getPointerPos(e);
+      swipeDeltaX = pos.x - swipeStartX;
+      const rotation = swipeDeltaX * 0.08;
+      const moveY = Math.abs(swipeDeltaX) * 0.05;
+      swipeCard.style.transform = `translateX(${swipeDeltaX}px) rotate(${rotation}deg) translateY(${-moveY}px)`;
+
+      // Show stamps based on direction
+      const nextStamp = swipeCard.querySelector('.sc-stamp-next');
+      const prevStamp = swipeCard.querySelector('.sc-stamp-prev');
+      const progress = Math.min(1, Math.abs(swipeDeltaX) / SWIPE_THRESHOLD);
+
+      if (swipeDeltaX > 20) {
+        nextStamp.style.opacity = progress;
+        nextStamp.style.transform = `scale(${0.5 + progress * 0.5})`;
+        prevStamp.style.opacity = 0;
+        swipeCard.classList.add('swiping-right');
+        swipeCard.classList.remove('swiping-left');
+        // Edge hint glow
+        document.getElementById('swipe-hint-right').classList.add('active');
+        document.getElementById('swipe-hint-left').classList.remove('active');
+      } else if (swipeDeltaX < -20) {
+        prevStamp.style.opacity = progress;
+        prevStamp.style.transform = `scale(${0.5 + progress * 0.5})`;
+        nextStamp.style.opacity = 0;
+        swipeCard.classList.add('swiping-left');
+        swipeCard.classList.remove('swiping-right');
+        document.getElementById('swipe-hint-left').classList.add('active');
+        document.getElementById('swipe-hint-right').classList.remove('active');
+      } else {
+        nextStamp.style.opacity = 0;
+        prevStamp.style.opacity = 0;
+        swipeCard.classList.remove('swiping-left', 'swiping-right');
+        document.getElementById('swipe-hint-left').classList.remove('active');
+        document.getElementById('swipe-hint-right').classList.remove('active');
+      }
+
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function onSwipeEnd(e) {
+      if (!swipeDragging || !swipeCard) return;
+      swipeDragging = false;
+      swipeCard.classList.remove('dragging', 'swiping-left', 'swiping-right');
+      document.getElementById('swipe-hint-left').classList.remove('active');
+      document.getElementById('swipe-hint-right').classList.remove('active');
+
+      if (swipeDeltaX > SWIPE_THRESHOLD) {
+        // Swiped right — NEXT
+        playWhoosh('next');
+        animateSwipeOut('right', () => readNext(true));
+      } else if (swipeDeltaX < -SWIPE_THRESHOLD) {
+        // Swiped left — PREV
+        if (CT && CT.page > 0) {
+          playWhoosh('prev');
+          animateSwipeOut('left', () => readPrev(true));
+        } else {
+          snapBack();
+        }
+      } else {
+        snapBack();
+      }
+    }
+
+    function snapBack() {
+      if (!swipeCard) return;
+      swipeCard.style.transition = 'transform 0.4s cubic-bezier(.175,.885,.32,1.275)';
+      swipeCard.style.transform = 'translateX(0) rotate(0deg) translateY(0)';
+      const nextStamp = swipeCard.querySelector('.sc-stamp-next');
+      const prevStamp = swipeCard.querySelector('.sc-stamp-prev');
+      if (nextStamp) { nextStamp.style.opacity = 0; nextStamp.style.transition = 'opacity 0.3s'; }
+      if (prevStamp) { prevStamp.style.opacity = 0; prevStamp.style.transition = 'opacity 0.3s'; }
+    }
+
+    function animateSwipeOut(dir, callback) {
+      if (!swipeCard) return;
+      swipeAnimating = true;
+      const flyX = dir === 'right' ? window.innerWidth * 1.5 : -window.innerWidth * 1.5;
+      const flyRotation = dir === 'right' ? 30 : -30;
+      swipeCard.style.transition = 'transform 0.45s cubic-bezier(.25,.46,.45,.94), opacity 0.4s ease';
+      swipeCard.style.transform = `translateX(${flyX}px) rotate(${flyRotation}deg)`;
+      swipeCard.style.opacity = '0';
+      setTimeout(() => {
+        swipeAnimating = false;
+        if (callback) callback();
+      }, 350);
+    }
+
+    function triggerSwipe(dir) {
+      if (!swipeCard || swipeAnimating) return;
+      if (dir === 'next') {
+        playWhoosh('next');
+        animateSwipeOut('right', () => readNext(true));
+      } else if (dir === 'prev') {
+        if (CT && CT.page > 0) {
+          playWhoosh('prev');
+          animateSwipeOut('left', () => readPrev(true));
+        } else {
+          snapBack();
+        }
+      }
+    }
+
+    // Hint animation on first load
+    function playSwipeHint() {
+      if (!swipeCard || swipeDragging || swipeAnimating) return;
+      swipeCard.classList.add('hint-wobble');
+      setTimeout(() => { if (swipeCard) swipeCard.classList.remove('hint-wobble'); }, 1200);
+    }
+
+    function readPrev(skipSound = false) {
+      if (CT && CT.page > 0) {
+        if (!skipSound) playWhoosh('prev');
+        CT.page--;
+        CT.playTypewriterNext = false; // Disable typewriter for prev
+        S.readProgress[CT.topic.topic_slug] = CT.page;
+        saveState();
+        upsertTopicProgress(CT.topic.topic_slug, { read_page: CT.page });
+        renderSwipeDeck();
+      }
+    }
+
+    function readNext(skipSound = false) {
+      if (!CT) return;
+      if (!skipSound) playWhoosh('next');
+      if (CT.page < CT.lessons.length - 1) {
+        CT.page++;
+        CT.playTypewriterNext = true; // Enable typewriter for next
+        S.readProgress[CT.topic.topic_slug] = CT.page;
+        saveState();
+        upsertTopicProgress(CT.topic.topic_slug, { read_page: CT.page });
+        renderSwipeDeck();
+      } else {
+        // Lesson reading complete
+        if (!S.readTopics.includes(CT.topic.topic_slug)) {
+          S.readTopics.push(CT.topic.topic_slug);
+          S.coins += 15;
+          drainEnergy(1);
+          saveState(); updateStats();
+          upsertTopicProgress(CT.topic.topic_slug, {
+            read_page: CT.page,
+            read_completed_at: new Date().toISOString(),
+          });
+          document.getElementById('rw-title').textContent = 'Lesson Complete!';
+          document.getElementById('rw-sub').textContent = CT.topic.topic_name;
+          document.getElementById('rw-coins').textContent = '+15 coins';
+          document.getElementById('rw-energy').textContent = '-1 energy';
+          document.getElementById('read-reward').classList.add('show');
+        } else {
+          startTopicQuiz(CT.topic);
+        }
+      }
+    }
+
+    function closeRead() {
+      detachSwipeEvents();
+      CT = null;
+      goLearnScreen();
+    }
+
+    function closeReward() {
+      document.getElementById('read-reward').classList.remove('show');
+      if (CT) startTopicQuiz(CT.topic);
+      else goLearnScreen();
+    }
+
+    // ============================================================
+    // QUIZ ENGINE
+    // ============================================================
+    async function startTopicQuiz(topic) {
+      const qs = await fetchQuiz(topic.topic_slug);
+      // No quiz questions available for this lesson — auto-complete the topic
+      // so the next lesson unlocks instead of dead-ending the user.
+      if (!qs || !qs.length) {
+        if (!S.doneTopics.includes(topic.topic_slug)) {
+          S.doneTopics.push(topic.topic_slug);
+          S.streak++;
+          upsertTopicProgress(topic.topic_slug, {
+            done_completed_at: new Date().toISOString(),
+          });
+        }
+        saveState();
+        updateStats();
+        CT = null;
+        CQ = null;
+        showToast('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><polyline points="20,6 9,17 4,12"/></svg> <strong>Lesson complete!</strong> Next lesson unlocked.', 'success');
+        goLearnScreen();
+        return;
+      }
+      const shuffled = [...qs].sort(() => Math.random() - .5).slice(0, 5);
+      const parsed = shuffled.map(q => {
+        const opts = q.options.split('|').map(o => o.trim());
+        let ci = opts.findIndex(o => o.toLowerCase() === q.answer.trim().toLowerCase());
+        if (ci === -1) ci = opts.findIndex(o => o.toLowerCase().includes(q.answer.trim().toLowerCase().slice(0, 30)));
+        if (ci === -1) ci = 0;
+        return { q: q.question, opts, correct: ci, ex: q.explanation || '' };
+      });
+      CQ = { topic, questions: parsed, ci: 0, score: 0, earned: 0, answered: false };
+      showScreen('screen-quiz'); renderQuiz();
+    }
+    function renderQuiz() {
+      const q = CQ.questions[CQ.ci], tot = CQ.questions.length, cur = CQ.ci + 1;
+      document.getElementById('quiz-pfill').style.width = ((cur - 1) / tot * 100) + '%';
+      document.getElementById('quiz-coins').textContent = CQ.earned;
+      document.getElementById('quiz-tag').textContent = CQ.topic.topic_name;
+      document.getElementById('quiz-qnum').textContent = `Question ${cur} of ${tot}`;
+      document.getElementById('quiz-qtext').textContent = q.q;
+      const opts = document.getElementById('quiz-opts');
+      opts.innerHTML = '';
+      q.opts.forEach((o, i) => { const b = document.createElement('button'); b.className = 'opt-btn'; b.textContent = o; b.onclick = () => answerQuiz(i); opts.appendChild(b); });
+      document.getElementById('quiz-explain').classList.remove('show');
+      document.getElementById('quiz-next-btn').classList.remove('show');
+      CQ.answered = false;
+    }
+
+    function answerQuiz(idx) {
+      if (CQ.answered) return; CQ.answered = true;
+      const q = CQ.questions[CQ.ci], correct = idx === q.correct;
+      const btns = document.querySelectorAll('#quiz-opts .opt-btn');
+      btns.forEach((b, i) => { b.classList.add('done'); if (i === idx) b.classList.add(correct ? 'correct' : 'wrong'); if (i === q.correct && !correct) b.classList.add('reveal'); if (i !== idx && i !== q.correct) b.classList.add('dim'); });
+      if (correct) { CQ.score++; CQ.earned += 10; document.getElementById('quiz-coins').textContent = CQ.earned; coinPop(btns[idx]); }
+      const hdr = document.getElementById('quiz-exhdr');
+      hdr.className = 'explain-hdr ' + (correct ? 'ok' : 'no');
+      hdr.innerHTML = (correct ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Correct!' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Not quite!');
+      document.getElementById('quiz-extxt').textContent = q.ex;
+      document.getElementById('quiz-explain').classList.add('show');
+      const nb = document.getElementById('quiz-next-btn');
+      nb.textContent = CQ.ci >= CQ.questions.length - 1 ? 'See Results' : 'Continue';
+      nb.classList.add('show');
+    }
+    function quizNext() { if (CQ.ci >= CQ.questions.length - 1) finishQuiz(); else { CQ.ci++; renderQuiz(); } }
+    function exitQuiz() { CQ = null; goLearnScreen(); }
+    function coinPop(el) {
+      const r = el.getBoundingClientRect(), d = document.createElement('div');
+      d.className = 'coin-pop'; d.textContent = '+10';
+      d.style.left = (r.left + r.width / 2 - 15) + 'px'; d.style.top = (r.top - 8) + 'px';
+      document.body.appendChild(d); setTimeout(() => d.remove(), 900);
+    }
+
+    // ============================================================
+    // RESULTS
+    // ============================================================
+    function finishQuiz() {
+      const sc = CQ.score, tot = CQ.questions.length, acc = Math.round(sc / tot * 100), pass = sc >= Math.ceil(tot * 0.6), xpE = sc * 20;
+      S.coins += CQ.earned; S.xp += xpE;
+      const wasAlreadyDone = S.doneTopics.includes(CQ.topic.topic_slug);
+      if (pass) {
+        S.streak++;
+        // Only mark as DONE (completed) when quiz is passed
+        if (!wasAlreadyDone) {
+          S.doneTopics.push(CQ.topic.topic_slug);
+          drainEnergy(1);
+        }
+      }
+      const prevAcc = S.quizScores[CQ.topic.topic_slug] || 0;
+      S.quizScores[CQ.topic.topic_slug] = Math.max(prevAcc, acc); saveState();
+
+      // Sync this attempt to Supabase. We only overwrite quiz_score/total when
+      // the new attempt's accuracy beats what we already had stored.
+      const topicPatch = {};
+      if (pass && !wasAlreadyDone) topicPatch.done_completed_at = new Date().toISOString();
+      if (acc >= prevAcc) { topicPatch.quiz_score = sc; topicPatch.quiz_total = tot; }
+      if (Object.keys(topicPatch).length) upsertTopicProgress(CQ.topic.topic_slug, topicPatch);
+      showScreen('screen-results');
+      const icon = document.getElementById('res-icon');
+      icon.className = 'r-icon ' + (acc === 100 ? 'perfect' : pass ? 'pass' : 'fail');
+      icon.innerHTML = acc === 100 ? '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21,13.89 7,23 12,20 17,23 15.79,13.88"/></svg>' : pass ? '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>' : '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
+      const mWrap = document.getElementById('res-mammoth-wrap');
+      const mGif = document.getElementById('res-mammoth-gif');
+      mGif.src = (pass ? 'assets/MammthThumbsUpAnim.gif' : 'assets/SadAnim.gif') + '?t=' + Date.now();
+      mGif.alt = pass ? 'Celebrating Mammoth' : 'Sad Mammoth';
+      mWrap.classList.remove('pass', 'fail', 'perfect');
+      mWrap.classList.add(acc === 100 ? 'perfect' : pass ? 'pass' : 'fail');
+      icon.style.display = 'none';
+      const perfectQuotes = [
+        "You aced it! Wall Street is calling.",
+        "Flawless victory! Warren Buffett would be proud.",
+        "Perfection! You're a financial prodigy.",
+        "100%! The market bows to your wisdom.",
+        "Unstoppable! A truly perfect score.",
+        "Masterclass in investing. Outstanding!"
+      ];
+      const passQuotes = [
+        "Great job! You're building solid financial foundations.",
+        "Passed! Keep compounding that knowledge.",
+        "Nicely done. You're on your way to mastery.",
+        "Success! Your financial literacy is leveling up.",
+        "Good work! You secured the bag on this one.",
+        "You're making smart investments in your brain."
+      ];
+      const failQuotes = [
+        "Score 60%+ to pass. Don't give up!",
+        "Every loss is a lesson. Try again!",
+        "The market is tough today. Give it another shot!",
+        "Almost there! Review the material and try again.",
+        "Bear market on this quiz, but bulls always return!",
+        "Keep learning! Small setbacks lead to big comebacks."
+      ];
+
+      let quote = "";
+      if (acc === 100) quote = perfectQuotes[Math.floor(Math.random() * perfectQuotes.length)];
+      else if (pass) quote = passQuotes[Math.floor(Math.random() * passQuotes.length)];
+      else quote = failQuotes[Math.floor(Math.random() * failQuotes.length)];
+
+      document.getElementById('res-title').textContent = acc === 100 ? 'Perfect Score!' : pass ? 'Quiz Complete!' : 'Keep Learning!';
+      document.getElementById('res-sub').textContent = quote;
+      document.getElementById('res-num').textContent = sc + '/' + tot;
+      document.getElementById('res-lbl').textContent = acc + '%';
+      document.getElementById('res-coins').textContent = CQ.earned;
+      document.getElementById('res-acc').textContent = acc + '%';
+      setTimeout(() => { const c = 2 * Math.PI * 55; document.getElementById('res-ring').style.strokeDasharray = c; document.getElementById('res-ring').style.strokeDashoffset = c - (sc / tot) * c; }, 100);
+      if (pass) confetti(); updateStats();
+
+      // Contextually re-target the "Continue" button. If the user just finished
+      // their free preview and isn't subscribed, the next lesson in this
+      // category lives behind the paywall — so we send them straight there.
+      const continueBtn = document.getElementById('res-continue');
+      if (continueBtn) {
+        const catTopics = allTopics.filter(t => t.category === CQ.topic.category);
+        const idx = catTopics.findIndex(t => t.topic_slug === CQ.topic.topic_slug);
+        const hasMoreInCat = idx >= 0 && idx < catTopics.length - 1;
+        const showUpsell = pass && !S.hasSubscribed && hasMoreInCat;
+        if (showUpsell) {
+          continueBtn.classList.add('upsell');
+          continueBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:4px">
+              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
+            </svg>
+            Unlock Next Lesson · 7 Days Free`;
+          continueBtn.onclick = () => showPaywall();
+        } else {
+          continueBtn.classList.remove('upsell');
+          continueBtn.textContent = 'Continue';
+          continueBtn.onclick = () => goLearnScreen();
+        }
+      }
+    }
+    function retryQuiz() { if (CQ) startTopicQuiz(CQ.topic); }
+    function confetti() {
+      const box = document.createElement('div'); box.className = 'confetti-box'; document.body.appendChild(box);
+      const cols = ['#A855F7', '#34C759', '#3B82F6', '#C026D3', '#FFD93D'];
+      for (let i = 0; i < 40; i++) { const p = document.createElement('div'); p.className = 'conf'; const sz = Math.random() * 6 + 4; p.style.cssText = `left:${Math.random() * 100}%;width:${sz}px;height:${sz}px;background:${cols[Math.floor(Math.random() * cols.length)]};border-radius:${Math.random() > .5 ? '50%' : '2px'};animation-duration:${Math.random() * 2 + 1.5}s;animation-delay:${Math.random() * .4}s`; box.appendChild(p); }
+      setTimeout(() => box.remove(), 4000);
+    }
+
+    // ============================================================
+    // NAVBAR & CONTACT FORM
+    // ============================================================
+    function toggleMobileNav() { document.getElementById('mobile-nav-overlay').classList.toggle('open'); }
+    function closeMobileNav() { document.getElementById('mobile-nav-overlay').classList.remove('open'); }
+    function smoothScroll(e, id) { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); closeMobileNav(); }
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('site-nav');
+      nav.classList.toggle('scrolled', window.scrollY > 10 || document.getElementById('app-section').classList.contains('active'));
+    });
+
+    // Courses page init
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Restore the Supabase session BEFORE deciding whether to show the
+      // sign-in overlay, otherwise already-authenticated users would flash
+      // through the Google sign-in screen on every page load.
+      if (sb) {
+        try {
+          const { data } = await sb.auth.getSession();
+          applySession(data.session);
+          if (data.session) {
+            await loadServerState();
+          }
+        } catch (e) { console.warn('session restore:', e); }
+      }
+
+      // Launch the learning flow immediately — shows Google Auth if not signed in,
+      // otherwise goes straight to the course list.
+      startLearning();
+
+      // Initialize Google Sign-In (One Tap + button)
+      initGoogleAuth();
+    });
+
+    // ============================================================
+    // STRIPE PAYWALL LOGIC
+    // ------------------------------------------------------------
+    // Source of truth for "is this user paid?" is the `entitlements`
+    // table in Supabase, written ONLY by the stripe-webhook Edge
+    // Function (server-side). The frontend never decides paid status
+    // on its own — no URL params, no localStorage, no DevTools tricks.
+    // ============================================================
+
+    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/5kQ4gy0ZSa0f7VA5xA2cg00';
+
+    // Cleanup of legacy bypass flags from older builds.
+    localStorage.removeItem('mammth-just-paid');
+
+    const stripeUrlParams = new URLSearchParams(window.location.search);
+    if (stripeUrlParams.get('payment_success') === 'true') {
+      // User just came back from Stripe. Don't trust the param —
+      // poll the entitlements table until the webhook has written
+      // is_paid=true (usually 1–3 seconds).
+      window.history.replaceState({}, document.title, window.location.pathname);
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => showToast('Processing your payment…', 'info'), 500);
+        pollForEntitlement();
+      });
+    } else if (stripeUrlParams.get('payment_canceled') === 'true') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      document.addEventListener('DOMContentLoaded', () => setTimeout(() => showToast('Payment was canceled.', 'info'), 500));
+    }
+
+    async function pollForEntitlement(maxAttempts = 20, intervalMs = 1500) {
+      for (let i = 0; i < maxAttempts; i++) {
+        if (sb && CURRENT_USER_ID) {
+          const { data } = await sb
+            .from('entitlements')
+            .select('is_paid')
+            .eq('user_id', CURRENT_USER_ID)
+            .maybeSingle();
+          if (data && data.is_paid) {
+            S.hasSubscribed = true;
+            saveLocal();
+            if (typeof updateLearnCtaButton === 'function') updateLearnCtaButton();
+            if (document.getElementById('screen-learn')?.classList.contains('active')
+              && typeof renderLearn === 'function') {
+              renderLearn();
+            }
+            showToast('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Successfully Subscribed to Premium!', 'success');
+            return;
+          }
+        }
+        await new Promise(r => setTimeout(r, intervalMs));
+      }
+      showToast('Payment received — refresh in a moment to see premium access.', 'info');
+    }
+
+    function startStripeCheckout() {
+      const btn = document.getElementById('stripe-checkout-btn');
+
+      // Require sign-in BEFORE going to Stripe so we have a user id
+      // to attach to the payment via client_reference_id. Without it,
+      // the webhook can't map the payment back to a Supabase account.
+      if (!CURRENT_USER || !CURRENT_USER_ID) {
+        showToast('Please sign in before subscribing.', 'locked');
+        if (typeof showGoogleAuthOverlay === 'function') showGoogleAuthOverlay();
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<div class="spinner" style="width:20px;height:20px;border-width:2px;border-color:rgba(255,255,255,.3);border-top-color:#fff;"></div>';
+      }
+
+      const url = new URL(STRIPE_PAYMENT_LINK);
+      url.searchParams.set('client_reference_id', CURRENT_USER_ID);
+      if (CURRENT_USER.email) {
+        url.searchParams.set('prefilled_email', CURRENT_USER.email);
+      }
+      window.location.href = url.toString();
+    }
+
+    // ============================================================
+    // GOOGLE AUTH
+    // ============================================================
+    const GOOGLE_CLIENT_ID = '395913791853-rek6h2n7t1mnktgv49kiuoftkn222722.apps.googleusercontent.com';
+    let googleTokenClient = null;
+
+    // Nonce used to bind the Google ID token to this page session.
+    // Google receives the SHA-256 hash; Supabase verifies against the raw value.
+    let googleNonceRaw = null;
+    let googleNonceHashed = null;
+
+    async function prepareGoogleNonce() {
+      googleNonceRaw = (crypto.randomUUID() + crypto.randomUUID()).replace(/-/g, '');
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(googleNonceRaw));
+      googleNonceHashed = Array.from(new Uint8Array(buf))
+        .map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function initGoogleAuth() {
+      // Wait for the GIS library to load
+      if (typeof google === 'undefined' || !google.accounts) {
+        setTimeout(initGoogleAuth, 300);
+        return;
+      }
+
+      await prepareGoogleNonce();
+
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        nonce: googleNonceHashed,
+        auto_select: true,
+      });
+
+      // Render the standard Google Sign-In button directly
+      const wrap = document.getElementById('auth-google-wrap');
+      if (wrap) {
+        google.accounts.id.renderButton(wrap, {
+          theme: 'filled_black',
+          size: 'large',
+          width: 280,
+          text: 'continue_with',
+          shape: 'pill',
+        });
+      }
+
+      // If we already have a Supabase session, just refresh the avatar.
+      if (CURRENT_USER) updateUserDisplay();
+    }
+
+    function triggerGoogleSignIn() {
+      // No longer needed: we moved to direct button rendering.
+      // Kept as a dummy function in case it's called somewhere.
+    }
+
+    async function handleGoogleCredential(response) {
+      const temp = document.getElementById('g-signin-temp');
+      if (temp) temp.remove();
+
+      if (!sb) {
+        showToast('Sign-in unavailable right now. Please try again.', 'locked');
+        return;
+      }
+
+      // Exchange the Google ID token for a Supabase session.
+      const { data, error } = await sb.auth.signInWithIdToken({
+        provider: 'google',
+        token: response.credential,
+        nonce: googleNonceRaw,
+      });
+
+      if (error) {
+        console.error('Supabase signInWithIdToken error:', error);
+        showToast('Sign-in failed. Please try again.', 'locked');
+        return;
+      }
+
+      // Set CURRENT_USER immediately so the synchronous getGoogleUser()
+      // checks below succeed without waiting for onAuthStateChange.
+      applySession(data.session);
+
+      // Pull progress for this user before entering the app, so the UI
+      // renders with the correct numbers instead of flashing defaults.
+      try { await loadServerState(); } catch (e) { console.warn(e); }
+
+      hideGoogleAuthOverlay();
+      updateUserDisplay();
+      updateLearnCtaButton();
+      startLearning();
+    }
+
+    function getGoogleUser() {
+      return CURRENT_USER;
+    }
+
+    function updateUserDisplay() {
+      const user = getGoogleUser();
+      const avatarBtn = document.getElementById('user-avatar-btn');
+      const avatarImg = document.getElementById('user-avatar-img');
+      if (user && avatarBtn && avatarImg) {
+        avatarImg.src = user.picture || '';
+        avatarImg.alt = user.name || 'User';
+        avatarBtn.style.display = 'flex';
+        avatarBtn.title = user.name + ' — Click to sign out';
+      }
+    }
+
+    function showGoogleAuthOverlay() {
+      document.getElementById('google-auth-overlay').classList.add('show');
+    }
+    function hideGoogleAuthOverlay() {
+      document.getElementById('google-auth-overlay').classList.remove('show');
+    }
+
+    function toggleUserMenu() {
+      const user = getGoogleUser();
+      if (!user) return;
+      const menu = document.getElementById('profile-menu');
+      if (menu.classList.contains('show')) {
+        menu.classList.remove('show');
+      } else {
+        document.getElementById('pm-avatar').src = user.picture || '';
+        document.getElementById('pm-name').textContent = user.name || 'User';
+        document.getElementById('pm-email').textContent = user.email || '';
+        menu.classList.add('show');
+      }
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function (e) {
+      const menu = document.getElementById('profile-menu');
+      const btn = document.getElementById('user-avatar-btn');
+      if (menu && menu.classList.contains('show')) {
+        if (!menu.contains(e.target) && !btn.contains(e.target)) {
+          menu.classList.remove('show');
+        }
+      }
+    });
+
+    async function signOutGoogle() {
+      // Flush any pending writes before tearing down the session
+      clearTimeout(userProgressPushTimer);
+      try { await pushUserProgress(); } catch (e) { /* best-effort */ }
+
+      if (sb) {
+        try { await sb.auth.signOut(); } catch (e) { console.warn('signOut:', e); }
+      }
+      // Clean up any legacy keys from the pre-Supabase-Auth flow.
+      localStorage.removeItem('mammth-guser');
+      localStorage.removeItem('mammth-started');
+
+      const menu = document.getElementById('profile-menu');
+      if (menu) menu.classList.remove('show');
+      if (typeof google !== 'undefined' && google.accounts) {
+        google.accounts.id.disableAutoSelect();
+      }
+      const avatarBtn = document.getElementById('user-avatar-btn');
+      if (avatarBtn) avatarBtn.style.display = 'none';
+      updateLearnCtaButton();
+      goHome();
+      showToast('Signed out successfully.', 'info');
+    }
+  </script>
+</body>
+
+</html>

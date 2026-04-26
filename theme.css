@@ -1,0 +1,51 @@
+/* ============================================================
+   Theme Variables — Mammoth Investing
+   ============================================================ */
+
+:root {
+  /* Colors - Backgrounds */
+  --bg: #09090f;
+  --bg-surface: #111118;
+  --bg-card: rgba(191, 11, 193, .04);
+  --bg-card-hover: rgba(191, 11, 193, .09);
+
+  /* Colors - Borders */
+  --border: rgba(191, 11, 193, .1);
+  --border-hover: rgba(191, 11, 193, .25);
+  --border-subtle: rgba(255, 255, 255, .06);
+
+  /* Colors - Accents */
+  --accent: #bf0bc1;
+  --accent-dark: #7C3AED;
+  --accent-pink: #C026D3;
+  --accent-deep: #4C1D95;
+
+  /* Colors - States */
+  --success: #34C759;
+  --warning: #FF6B35;
+  --danger: #FF3B30;
+
+  /* Colors - Typography */
+  --text: #ffffff;
+  --text-secondary: #bbbbbb;
+  --text-muted: #888888;
+  --text-dim: #666666;
+  --text-dark: #444444;
+
+  /* Typography */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', 'Inter', system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Effects */
+  --gradient: var(--accent);
+  --gradient-subtle: rgba(191, 11, 193, .12);
+  --shadow-glow: 0 0 60px rgba(191, 11, 193, .12);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, .4);
+}

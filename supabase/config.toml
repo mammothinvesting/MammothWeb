@@ -1,0 +1,9 @@
+# A string used to distinguish different Supabase projects on the same host.
+# Must be unique across local Supabase projects on this machine.
+project_id = "mammoth-investing"
+
+[functions.stripe-webhook]
+# Stripe calls this endpoint without a Supabase user JWT, so we must turn
+# JWT verification off. The function verifies authenticity itself by
+# checking the Stripe-Signature header against STRIPE_WEBHOOK_SECRET.
+verify_jwt = false

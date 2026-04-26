@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow Stripe return URLs from being indexed
+Disallow: /*?payment_success=
+Disallow: /*?payment_canceled=
+
+Sitemap: https://mammothinvesting.com/sitemap.xml

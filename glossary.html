@@ -1,203 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Glossary - Mammoth Investing</title>
-    <meta name="description" content="Interactive financial glossary with flashcards for learning key investment and finance terms.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#09090f">
+
+<title>Investing Glossary — Financial Terms Explained | Mammoth Investing</title>
+<meta name="description" content="A comprehensive glossary of investing and stock market terms. Tap any word to reveal a clear definition and hear its pronunciation. Learn the language of finance.">
+<meta name="keywords" content="investing glossary, financial terms, stock market dictionary, investing definitions, finance terminology">
+<meta name="author" content="Mammoth Investing Inc">
+<link rel="canonical" href="https://mammothinvesting.com/glossary.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mammoth Investing">
+<meta property="og:title" content="Investing Glossary — Financial Terms Explained">
+<meta property="og:description" content="Tap any word to reveal a clear definition and hear its pronunciation. Learn the language of finance.">
+<meta property="og:url" content="https://mammothinvesting.com/glossary.html">
+<meta property="og:image" content="https://mammothinvesting.com/assets/MammthPurpleLogo.png">
+<meta property="og:image:alt" content="Mammoth Investing logo">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Investing Glossary — Financial Terms Explained">
+<meta name="twitter:description" content="A comprehensive glossary of investing and stock market terms.">
+<meta name="twitter:image" content="https://mammothinvesting.com/assets/MammthPurpleLogo.png">
+
+<!-- Favicons -->
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/MammthPurpleLogo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ── Glossary-specific styles ── */
+  .glossary-hero {
+    text-align:center; padding:120px 24px 48px;
+    background:radial-gradient(ellipse at 50% 30%, rgba(168,85,247,.08), transparent 65%);
+    position:relative;
+  }
+  .glossary-hero::before {
+    content:''; position:absolute; inset:0;
+    background:url('assets/bg-img.png') no-repeat center/cover; opacity:.04;
+    pointer-events:none;
+  }
+  .glossary-hero h1 {
+    font-family:var(--font-heading); font-size:clamp(28px,5vw,46px);
+    font-weight:900; position:relative; z-index:1;
+    margin-bottom:10px;
+  }
+  .glossary-hero p { color:var(--text-muted); font-size:16px; position:relative; z-index:1; }
+
+  /* Search */
+  .glossary-search {
+    max-width:480px; margin:32px auto 0; position:relative; z-index:1;
+  }
+  .glossary-search input {
+    width:100%; padding:14px 18px 14px 44px;
+    background:var(--bg-surface); border:1px solid var(--border);
+    border-radius:var(--radius-lg); color:var(--text);
+    font-size:15px; font-family:var(--font-body);
+    transition:border-color .2s;
+  }
+  .glossary-search input:focus { outline:none; border-color:var(--accent); }
+  .glossary-search input::placeholder { color:var(--text-dim); }
+  .glossary-search-icon {
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:20px; height:20px; color:var(--text-dim);
+  }
+
+  /* Grid */
+  .glossary-grid-section { padding:48px 24px 80px; max-width:1000px; margin:0 auto; }
+  .glossary-count { font-size:13px; color:var(--text-dim); margin-bottom:20px; font-weight:500; }
+  .glossary-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; }
+
+  /* Flashcard */
+  .flashcard {
+    perspective:1000px; cursor:pointer; min-height:180px;
+  }
+  .flashcard-inner {
+    display:grid; width:100%; height:100%; min-height:180px;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform:rotateY(180deg); }
+
+  .flashcard-front, .flashcard-back {
+    grid-area:1 / 1; width:100%; height:100%;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    border-radius:var(--radius-lg); border:1px solid var(--border);
+    padding:24px 20px; display:flex; flex-direction:column;
+    transition:border-color .25s;
+  }
+  .flashcard:hover .flashcard-front,
+  .flashcard:hover .flashcard-back { border-color:var(--border-hover); }
+
+  .flashcard-front {
+    background:var(--bg-surface);
+    justify-content:center; align-items:center; text-align:center;
+  }
+  .flashcard-front-icon {
+    width:48px; height:48px; border-radius:12px;
+    background:rgba(168,85,247,.08); display:flex; align-items:center;
+    justify-content:center; margin-bottom:14px; color:var(--accent);
+  }
+  .flashcard-front-icon svg { width:22px; height:22px; }
+  .flashcard-term {
+    font-family:var(--font-heading); font-size:17px; font-weight:700;
+    margin-bottom:8px; color:var(--text);
+  }
+  .flashcard-tap-hint {
+    font-size:12px; color:var(--text-dim);
+    display:flex; align-items:center; gap:5px;
+  }
+  .flashcard-tap-hint svg { width:14px; height:14px; }
+
+  .flashcard-back {
+    background:linear-gradient(135deg, rgba(124,58,237,.06), rgba(192,38,211,.03));
+    border-color:rgba(168,85,247,.2);
+    transform:rotateY(180deg); justify-content:flex-start;
+  }
+  .flashcard-back-header {
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .flashcard-back-term {
+    font-family:var(--font-heading); font-size:15px; font-weight:700;
+    color:var(--accent);
+  }
+  .flashcard-audio-btn {
+    width:32px; height:32px; border-radius:var(--radius-sm);
+    background:rgba(168,85,247,.1); border:1px solid rgba(168,85,247,.2);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--accent); transition:all .2s;
+  }
+  .flashcard-audio-btn:hover { background:rgba(168,85,247,.2); transform:scale(1.05); }
+  .flashcard-audio-btn svg { width:16px; height:16px; }
+  .flashcard-definition {
+    font-size:14px; line-height:1.65; color:var(--text-secondary);
+    margin-bottom:12px; flex:1;
+  }
+  .flashcard-example {
+    font-size:13px; line-height:1.5; color:var(--text-dim);
+    padding:10px 12px; background:rgba(168,85,247,.04);
+    border-radius:var(--radius-sm); border-left:3px solid var(--accent);
+  }
+  .flashcard-example strong { color:var(--text-muted); }
+
+  /* Empty state */
+  .glossary-empty { text-align:center; padding:60px 20px; color:var(--text-dim); }
+  .glossary-empty svg { width:48px; height:48px; margin-bottom:12px; color:var(--text-dark); }
+  .glossary-empty p { font-size:15px; }
+
+  @media(max-width:640px) {
+    .glossary-grid { grid-template-columns:1fr; }
+    .flashcard-inner { min-height:200px; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="navbar" class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="logo-text">Mammoth Investing</a>
-            </div>
-            
-            <div class="desktop-nav">
-                <a href="index.html" class="home-button">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9,22 9,12 15,12 15,22"></polyline>
-                    </svg>
-                    Back to Home
-                </a>
-                <a href="index.html#about" class="nav-link">About</a>
-                <a href="index.html#features" class="nav-link">Features</a>
-                <a href="index.html#contact" class="nav-link">Contact</a>
-                <a href="glossary.html" class="nav-link active">Glossary</a>
-            </div>
-            
-            <div class="mobile-menu-btn">
-                <button id="mobile-menu-toggle" class="menu-toggle">
-                    <span class="hamburger"></span>
-                    <span class="hamburger"></span>
-                    <span class="hamburger"></span>
-                </button>
-            </div>
+
+<!-- Navbar -->
+<nav class="site-nav scrolled" id="site-nav">
+  <a href="index.html" class="nav-brand">Mammoth Investing</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="glossary.html" style="color:var(--accent)">Glossary</a>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav-overlay" id="mobile-nav-overlay">
+  <a href="index.html">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="glossary.html" style="color:var(--accent)">Glossary</a>
+</div>
+
+<!-- Hero -->
+<section class="glossary-hero">
+  <h1>MammthAI <span class="gradient-text">Glossary</span></h1>
+  <p>Essential financial terms. Tap any card to reveal the definition.</p>
+  <div class="glossary-search">
+    <svg class="glossary-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="glossary-search-input" placeholder="Search terms..." oninput="filterGlossary()">
+  </div>
+</section>
+
+<!-- Glossary Grid -->
+<section class="glossary-grid-section">
+  <div class="glossary-count" id="glossary-count"></div>
+  <div class="glossary-grid" id="glossary-grid"></div>
+  <div class="glossary-empty" id="glossary-empty" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <p>No terms match your search</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-main">
+      <div class="footer-info">
+        <h3>Mammoth Investing Inc</h3>
+        <p>The MammthAI Investing app brings the power of AI-driven stock market analysis to your fingertips, making wealth-building accessible anytime, anywhere.</p>
+        <p>New York, United States</p>
+        <div class="social-links">
+          <a href="https://www.linkedin.com/company/mammoth-investing-inc/" target="_blank" rel="noopener noreferrer"
+            class="social-link" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="#0A66C2" width="20" height="20">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/mammthai_investing" target="_blank" rel="noopener noreferrer"
+            class="social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="url(#igGrad)" stroke-width="2" width="20" height="20">
+              <defs>
+                <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f09433" />
+                  <stop offset="25%" stop-color="#e6683c" />
+                  <stop offset="50%" stop-color="#dc2743" />
+                  <stop offset="75%" stop-color="#cc2366" />
+                  <stop offset="100%" stop-color="#bc1888" />
+                </linearGradient>
+              </defs>
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          </a>
         </div>
-        
-        <nav id="mobile-nav" class="mobile-nav">
-            <a href="index.html" class="mobile-nav-link">🏠 Back to Home</a>
-            <a href="index.html#about" class="mobile-nav-link">About</a>
-            <a href="index.html#features" class="mobile-nav-link">Features</a>
-            <a href="index.html#contact" class="mobile-nav-link">Contact</a>
-            <a href="glossary.html" class="mobile-nav-link active">Glossary</a>
-        </nav>
-    </nav>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="https://www.termsfeed.com/live/3583ef19-2d07-40b4-a116-ea865b2eae5a" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="current-year"></span> Mammoth Investing Inc. All rights reserved.</p>
+      <a href="https://www.termsfeed.com/live/3583ef19-2d07-40b4-a116-ea865b2eae5a" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
 
-    <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <section class="glossary-section">
-            <div class="container">
-                <!-- Header -->
-                <div class="glossary-header">
-                    <h1>Financial Glossary</h1>
-                    <p>Master key financial terms with interactive flashcards</p>
-                </div>
+<script>
+// ── Glossary terms data ──
+const GLOSSARY = [
+  { term:'Burn Rate', definition:'The rate at which a company spends its cash reserves, typically monthly, to fund operations before generating positive cash flow.', example:'A startup with $500,000 in cash spending $50,000 monthly has a burn rate of $50,000/month.' },
+  { term:'Cash Runway & Liquidity', definition:'Cash runway is the time a company can operate before running out of cash; liquidity is the ability to meet short-term obligations with available assets.', example:'A company with $1M in cash and a $100,000 monthly burn rate has a 10-month runway.' },
+  { term:'DCF (Discounted Cash Flow)', definition:"A valuation method that estimates a company's value by discounting its future cash flows to present value.", example:'A firm projects $100,000 annual cash flow for 5 years; at a 10% discount rate, its present value is approximately $379,000.' },
+  { term:'EBITDA', definition:"Earnings Before Interest, Taxes, Depreciation, and Amortization — a measure of a company's operating performance, excluding non-operating expenses.", example:'A company with $10M revenue, $6M operating expenses, and $1M depreciation has an EBITDA of $3M.' },
+  { term:'Insider Trends', definition:"Patterns of buying or selling company stock by insiders (e.g., executives), indicating their confidence in the company's future.", example:'If a CEO buys 10,000 shares of their company at $50 each, it may signal positive insider sentiment.' },
+  { term:'M&A (Mergers and Acquisitions)', definition:'Transactions where companies combine (merge) or one acquires another to enhance growth or market share.', example:'Company A buys Company B for $500M to expand its product line, forming a larger entity.' },
+  { term:'MACD', definition:'Moving Average Convergence Divergence — a technical indicator using moving averages to identify momentum and potential trend reversals in stock prices.', example:"If a stock's 12-day EMA crosses above its 26-day EMA, the MACD signals a bullish trend." },
+  { term:'Resistance', definition:'A price level where a stock faces selling pressure, preventing further price increases.', example:'A stock repeatedly fails to break above $100, indicating $100 as a resistance level.' },
+  { term:'RSI (Relative Strength Index)', definition:'A momentum indicator measuring price movement speed and magnitude to assess overbought or oversold conditions.', example:'A stock with an RSI of 75 is considered overbought, suggesting a potential price correction.' },
+  { term:'Stop-Loss', definition:'An order to sell a security when it reaches a specified price to limit potential losses.', example:'An investor buys a stock at $50 and sets a stop-loss at $45 to cap losses at 10%.' },
+  { term:'Succession Plan', definition:'A strategy to ensure leadership continuity by identifying and preparing successors for key roles.', example:'A company grooms a VP to replace the retiring CEO, ensuring a smooth transition.' },
+  { term:'Support', definition:'A price level where a stock tends to find buying interest, preventing further price declines.', example:'A stock consistently bounces back from $20, indicating $20 as a support level.' },
+  { term:'P/E Ratio', definition:'Price-to-Earnings Ratio — a valuation metric comparing a company\'s share price to its per-share earnings. A high P/E may indicate growth expectations.', example:'A stock at $100 with $5 earnings per share has a P/E of 20. Higher than average may mean the market expects strong growth.' },
+  { term:'Market Cap', definition:'Market capitalization — the total dollar value of a company\'s outstanding shares. Calculated by multiplying share price by total shares outstanding.', example:'A company with 1 billion shares at $50 each has a market cap of $50 billion — making it a large-cap stock.' },
+  { term:'Dividend Yield', definition:'The annual dividend payment divided by the stock price, expressed as a percentage. Shows how much cash flow you get for each dollar invested.', example:'A stock priced at $100 paying $4 in annual dividends has a 4% dividend yield.' },
+  { term:'ETF (Exchange-Traded Fund)', definition:'A type of investment fund that trades on stock exchanges. ETFs hold a basket of assets — stocks, bonds, or commodities — and offer instant diversification.', example:'SPY is an ETF that tracks the S&P 500, giving you exposure to 500 companies in a single purchase.' },
+  { term:'Bull Market', definition:'A market condition where prices are rising or expected to rise. Typically defined as a 20%+ rise from recent lows. Driven by optimism and economic growth.', example:'From 2009 to 2020, the US experienced the longest bull market in history, with the S&P 500 rising over 300%.' },
+  { term:'Bear Market', definition:'A market condition where prices drop 20% or more from recent highs. Often accompanied by widespread pessimism and negative investor sentiment.', example:'In 2008, the S&P 500 dropped over 50% during the financial crisis — a textbook bear market.' },
+];
 
-                <!-- Controls -->
-                <div class="glossary-controls">
-                    <div class="search-container">
-                        <div class="search-wrapper">
-                            <input type="text" id="searchInput" class="search-input" placeholder="Search terms..." autocomplete="off">
-                            <div class="search-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <path d="m21 21-4.35-4.35"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-container">
-                        <select id="categoryFilter" class="category-select">
-                            <option value="">All Categories</option>
-                            <option value="Financial Metrics">Financial Metrics</option>
-                            <option value="Technical Analysis">Technical Analysis</option>
-                            <option value="Valuation">Valuation</option>
-                            <option value="Market Analysis">Market Analysis</option>
-                            <option value="Corporate Actions">Corporate Actions</option>
-                            <option value="Risk Management">Risk Management</option>
-                            <option value="Corporate Governance">Corporate Governance</option>
-                        </select>
-                    </div>
-                    
-                    <div class="study-controls">
-                        <button id="studyModeBtn" class="cta-button">
-                            🎯 Start Study Mode
-                        </button>
-                        <button id="resetBtn" class="cta-button secondary" style="display: none;">
-                            🔄 Reset Session
-                        </button>
-                    </div>
-                </div>
+// ── Category SVG icons for variety ──
+const CARD_ICONS = [
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/><polyline points="17,6 23,6 23,12"/></svg>',
+];
 
-                <!-- Progress Container -->
-                <div class="progress-container" id="progressContainer" style="display: none;">
-                    <div class="progress-info">
-                        <span id="progressText">Progress: 0/0</span>
-                        <span id="studyStats"></span>
-                    </div>
-                    <div class="progress-bar">
-                        <div id="progressFill" class="progress-fill"></div>
-                    </div>
-                </div>
+// ── Render ──
+function renderGlossary(items) {
+  const grid = document.getElementById('glossary-grid');
+  const empty = document.getElementById('glossary-empty');
+  const count = document.getElementById('glossary-count');
+  grid.innerHTML = '';
 
-                <!-- Flashcards Grid -->
-                <div class="flashcards-grid" id="flashcardsGrid">
-                    <!-- Flashcards will be populated by JavaScript -->
-                </div>
+  if (items.length === 0) {
+    grid.style.display = 'none'; empty.style.display = 'block';
+    count.textContent = 'No results';
+    return;
+  }
+  grid.style.display = ''; empty.style.display = 'none';
+  count.textContent = items.length + ' terms';
 
-                <!-- Study Mode -->
-                <div class="study-mode" id="studyMode" style="display: none;">
-                    <div class="study-card-container">
-                        <div class="study-card" id="studyCard">
-                            <div class="study-card-inner">
-                                <div class="study-card-front">
-                                    <h3 class="study-term"></h3>
-                                    <p class="study-instruction">Click to reveal definition or press SPACE</p>
-                                </div>
-                                <div class="study-card-back">
-                                    <h3 class="study-term"></h3>
-                                    <p class="study-definition"></p>
-                                    <p class="study-example"></p>
-                                    <span class="study-category"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="study-controls-bottom">
-                        <button id="prevCardBtn" class="cta-button secondary">⬅️ Previous</button>
-                        <button id="flipCardBtn" class="cta-button">🔄 Flip Card</button>
-                        <button id="nextCardBtn" class="cta-button secondary">Next ➡️</button>
-                    </div>
-                    
-                    <div class="study-navigation">
-                        <button id="exitStudyBtn" class="cta-button outline">❌ Exit Study Mode</button>
-                    </div>
-
-                    <!-- Keyboard shortcuts info -->
-                    <div class="keyboard-shortcuts">
-                        <p><strong>Keyboard Shortcuts:</strong> SPACE = Flip | ← → = Navigate | ESC = Exit</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-main">
-                <div class="footer-info">
-                    <h3>Mammoth Investing</h3>
-                    <p>Empowering investors with AI-powered stock market insights and educational resources.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#features">Features</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2025</span> Mammoth Investing Inc. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                </div>
-            </div>
+  items.forEach((item, idx) => {
+    const icon = CARD_ICONS[idx % CARD_ICONS.length];
+    const card = document.createElement('div');
+    card.className = 'flashcard';
+    card.onclick = (e) => {
+      // Don't flip if clicking audio button
+      if (e.target.closest('.flashcard-audio-btn')) return;
+      card.classList.toggle('flipped');
+    };
+    card.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="flashcard-front-icon">${icon}</div>
+          <div class="flashcard-term">${item.term}</div>
+          <div class="flashcard-tap-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+            Tap to reveal
+          </div>
         </div>
-    </footer>
+        <div class="flashcard-back">
+          <div class="flashcard-back-header">
+            <div class="flashcard-back-term">${item.term}</div>
+            <button class="flashcard-audio-btn" onclick="speakTerm('${item.term.replace(/'/g,"\\'")}')" title="Listen to pronunciation">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </button>
+          </div>
+          <div class="flashcard-definition">${item.definition}</div>
+          <div class="flashcard-example"><strong>Example:</strong> ${item.example}</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
 
-    <!-- Toast Container -->
-    <div id="toast-container" class="toast-container"></div>
+// ── Audio pronunciation using Web Speech API ──
+function speakTerm(term) {
+  if ('speechSynthesis' in window) {
+    // Cancel any ongoing speech
+    speechSynthesis.cancel();
+    const msg = new SpeechSynthesisUtterance(term);
+    msg.rate = 0.9;
+    msg.pitch = 1;
+    msg.lang = 'en-US';
+    speechSynthesis.speak(msg);
+  }
+}
 
-    <script src="glossary-script.js"></script>
+// ── Search/filter ──
+function filterGlossary() {
+  const q = document.getElementById('glossary-search-input').value.toLowerCase().trim();
+  const filtered = q ? GLOSSARY.filter(g => g.term.toLowerCase().includes(q) || g.definition.toLowerCase().includes(q)) : GLOSSARY;
+  renderGlossary(filtered);
+}
+
+// ── Nav ──
+function toggleMobileNav() { document.getElementById('mobile-nav-overlay').classList.toggle('open'); }
+function closeMobileNav() { document.getElementById('mobile-nav-overlay').classList.remove('open'); }
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('current-year').textContent = new Date().getFullYear();
+  renderGlossary(GLOSSARY);
+});
+</script>
 </body>
 </html>
