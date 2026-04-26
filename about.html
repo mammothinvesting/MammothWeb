@@ -46,10 +46,17 @@
       <a href="about.html" style="color: var(--accent);">About Us</a>
       <a href="glossary.html">Glossary</a>
     </div>
-    <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+    <a href="index.html" onclick="closeMobileNav()">Home</a>
+    <a href="about.html" onclick="closeMobileNav()">About Us</a>
+    <a href="glossary.html" onclick="closeMobileNav()">Glossary</a>
+  </div>
 
   <div id="about-page" style="padding-top: 100px;">
     <!-- ABOUT SECTION -->
@@ -236,6 +243,20 @@
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
+    function toggleMobileNav() {
+      const overlay = document.getElementById('mobile-nav-overlay');
+      const burger = document.getElementById('nav-hamburger');
+      if (!overlay) return;
+      overlay.classList.toggle('open');
+      if (burger) burger.classList.toggle('active');
+    }
+    function closeMobileNav() {
+      const overlay = document.getElementById('mobile-nav-overlay');
+      const burger = document.getElementById('nav-hamburger');
+      if (overlay) overlay.classList.remove('open');
+      if (burger) burger.classList.remove('active');
+    }
+
     (function() {
       // Basic init for emailjs if used
       emailjs.init("If-N38_YZB3Kk1XhX");
