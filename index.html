@@ -578,6 +578,19 @@
       if (burger) burger.classList.remove('active');
     }
 
+    // Reset transition overlay when page is restored from bfcache (browser back/forward)
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) {
+        const circle = document.getElementById('pt-circle');
+        if (circle) {
+          circle.classList.remove('expanding');
+          circle.style.width = '0';
+          circle.style.height = '0';
+          circle.style.opacity = '0';
+        }
+      }
+    });
+
     // Page transition to courses.html
     function navigateToCourses(e) {
       const btn = e.currentTarget;
