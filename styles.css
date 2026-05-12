@@ -2,7 +2,7 @@
    Mammoth Investing — Learn with Mammth
    Unified Design System
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap');
 
 /* ── Custom Properties ──────────────────────────────────────── */
 @import url('theme.css');
@@ -1744,7 +1744,7 @@ img { max-width:100%; display:block; }
 .swipe-card {
   position:absolute;
   width:calc(100% - 40px);
-  max-width:500px;
+  max-width:560px;
   background:linear-gradient(165deg, rgba(20,20,32,.98), rgba(14,14,22,.99));
   border:1px solid rgba(168,85,247,.15);
   border-radius:var(--radius-xl);
@@ -1760,9 +1760,9 @@ img { max-width:100%; display:block; }
   overflow:visible;
 }
 .swipe-card-content {
-  max-height:calc(100vh - 300px);
+  max-height:calc(100vh - 280px);
   overflow-y:auto;
-  padding:24px 22px 20px;
+  padding:28px 28px 22px;
   display:flex;
   flex-direction:column;
   height:100%;
@@ -1921,23 +1921,27 @@ img { max-width:100%; display:block; }
   filter:drop-shadow(0 2px 6px rgba(190,14,193,.2));
 }
 .sc-title {
-  font-family:var(--font-heading);
-  font-size:20px;
+  font-family:'Playfair Display', var(--font-heading), serif;
+  font-size:24px;
   font-weight:800;
   text-align:center;
-  margin-bottom:14px;
-  line-height:1.3;
-  color:var(--text);
+  margin-bottom:18px;
+  line-height:1.25;
+  color:#fff;
+  letter-spacing:-0.5px;
 }
 .sc-content {
-  font-size:14.5px;
-  line-height:1.75;
-  color:var(--text-secondary);
+  font-family:'Plus Jakarta Sans', var(--font-body), sans-serif;
+  font-size:17px;
+  font-weight:500;
+  line-height:1.85;
+  color:rgba(235,235,245,.82);
   margin-bottom:16px;
+  letter-spacing:0.01em;
 }
-.sc-content p { margin-bottom:10px; }
-.sc-content strong { color:var(--text); font-weight:700; }
-.sc-content em { color:var(--accent); font-style:normal; font-weight:600; }
+.sc-content p { margin-bottom:14px; }
+.sc-content strong { color:#fff; font-weight:700; }
+.sc-content em { color:var(--accent); font-style:normal; font-weight:700; }
 
 /* ── Card Footer (swipe cues) ── */
 .sc-footer {
