@@ -1329,7 +1329,7 @@ img { max-width:100%; display:block; }
 
 /* Scroll wrapper */
 .roadmap-scroll-wrapper {
-  flex: 1;
+  flex: none;
   overflow-x: auto;
   overflow-y: auto;
   padding: 30px 20px 20px;
@@ -1592,6 +1592,30 @@ img { max-width:100%; display:block; }
 }
 .roadmap-cta-btn.all-done:hover {
   box-shadow: 0 12px 36px rgba(52,199,89,.45);
+}
+
+/* Double CTA buttons for completed roadmap */
+.roadmap-cta-double {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+}
+@media (max-width: 480px) {
+  .roadmap-cta-double {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    max-width: 340px;
+  }
+  .roadmap-cta-double .roadmap-cta-btn {
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+  }
 }
 
 /* Subtopic complete mini toast inside reading view */
@@ -2385,6 +2409,18 @@ img { max-width:100%; display:block; }
   cursor:pointer; box-shadow:0 4px 16px rgba(168,85,247,.35);
 }
 .reward-btn:hover { transform:translateY(-2px); box-shadow:0 6px 24px rgba(168,85,247,.5); }
+.reward-btn.outline {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #fff;
+  box-shadow: none;
+}
+.reward-btn.outline:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.25);
+  transform: translateY(-2px);
+  box-shadow: none;
+}
 
 /* ============================================================
    CONFETTI
@@ -2944,3 +2980,487 @@ img { max-width:100%; display:block; }
   transition: opacity 0.05s ease-out;
 }
 
+/* ============================================================
+   MOBILE RESPONSIVE — COURSE SECTION OPTIMIZATION
+   ============================================================ */
+
+/* ── Topbar stats — prevent overflow on narrow screens ── */
+@media (max-width: 480px) {
+  .topbar-stats {
+    padding: 0 12px 8px;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .topbar-brand {
+    padding: 8px 12px;
+  }
+  .stat-chip {
+    padding: 5px 10px;
+    font-size: 13px;
+    gap: 5px;
+  }
+  .stat-chip svg {
+    width: 15px;
+    height: 15px;
+  }
+  .buy-energy-chip {
+    padding: 5px 10px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .energy-capsules {
+    gap: 2px;
+  }
+  .e-cap {
+    width: 4px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  .energy-count {
+    font-size: 13px;
+    min-width: 16px;
+  }
+  .energy-timer {
+    font-size: 11px;
+    min-width: 32px;
+  }
+}
+
+/* ── Learn screen — category hero card mobile ── */
+@media (max-width: 480px) {
+  .learn-header {
+    padding: 14px 16px 6px;
+  }
+  .learn-title {
+    font-size: 20px;
+  }
+  .cat-hero-card {
+    padding: 16px;
+    border-radius: 16px;
+  }
+  .cat-hero-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .cat-hero-name {
+    font-size: 15px;
+  }
+  .cat-hero-desc {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .cat-hero-count {
+    font-size: 11px;
+  }
+  .cat-hero-progress {
+    font-size: 12px;
+  }
+}
+
+/* ── Timeline items — better mobile spacing and touch targets ── */
+@media (max-width: 480px) {
+  .topic-timeline {
+    padding: 0 4px;
+  }
+  .tl-item {
+    gap: 10px;
+  }
+  .tl-connector {
+    width: 16px;
+  }
+  .tl-dot {
+    width: 12px;
+    height: 12px;
+  }
+  .tl-card {
+    padding: 12px 14px;
+    gap: 10px;
+    border-radius: 14px;
+    /* Ensure minimum touch target height */
+    min-height: 56px;
+  }
+  .tl-card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .tl-card-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .tl-card-title {
+    font-size: 13px;
+  }
+  .tl-card-status {
+    font-size: 10.5px;
+  }
+  .tl-badge-new,
+  .tl-badge-free,
+  .tl-badge-done,
+  .tl-badge-locked,
+  .tl-badge-premium {
+    font-size: 8px;
+  }
+
+  /* Unlock promo card */
+  .tl-unlock-promo {
+    padding: 16px 14px 12px;
+    margin: 8px 0;
+    border-radius: 16px;
+  }
+}
+
+/* ── Swipe cards — mobile viewport optimization ── */
+@media (max-width: 480px) {
+  .swipe-deck {
+    padding: 80px 12px 10px;
+  }
+  .swipe-card {
+    width: calc(100% - 24px);
+    border-radius: 20px;
+  }
+  .swipe-card-content {
+    padding: 20px 18px 16px;
+    max-height: calc(100vh - 240px);
+  }
+  .sc-header {
+    margin-bottom: 12px;
+  }
+  .sc-topic-badge {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  .sc-icon-wrap {
+    margin-bottom: 12px;
+  }
+  .sc-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .sc-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .sc-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .sc-content {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .sc-footer {
+    margin-top: 12px;
+  }
+  .mammoth-talking-gif {
+    width: 100px;
+    height: 100px;
+    top: -35px;
+    right: -10px;
+  }
+
+  /* Swipe action buttons */
+  .swipe-actions {
+    padding: 10px 16px 16px;
+  }
+  .swipe-btn {
+    width: 48px;
+    height: 48px;
+  }
+  .swipe-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Read topbar */
+  .read-topbar {
+    padding: 10px 12px;
+  }
+  .read-close {
+    padding: 4px 8px 4px 4px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .read-close svg {
+    width: 16px;
+    height: 16px;
+  }
+  .read-pagenum {
+    font-size: 10px;
+  }
+  .read-pbar {
+    height: 4px;
+  }
+
+  /* Skip typewriter button */
+  .tw-skip-btn {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+}
+
+/* ── Swipe cards — very short screens (landscape mobile) ── */
+@media (max-height: 640px) {
+  .swipe-deck {
+    padding: 64px 12px 6px;
+  }
+  .swipe-card-content {
+    max-height: calc(100vh - 200px);
+    padding: 16px 16px 12px;
+  }
+  .sc-icon-wrap {
+    margin-bottom: 8px;
+  }
+  .sc-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .sc-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .mammoth-talking-gif {
+    width: 80px;
+    height: 80px;
+    top: -25px;
+  }
+}
+
+/* ── Quiz screen — mobile optimization ── */
+@media (max-width: 480px) {
+  .quiz-topbar {
+    padding: 10px 12px;
+  }
+  .quiz-close {
+    padding: 4px 8px 4px 4px;
+    font-size: 12px;
+    gap: 4px;
+  }
+  .quiz-close svg {
+    width: 16px;
+    height: 16px;
+  }
+  .quiz-body {
+    padding: 20px 16px 80px;
+  }
+  .quiz-topic-tag {
+    padding: 4px 10px;
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+  .quiz-qnum {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+  .quiz-qtext {
+    font-size: 16px;
+    margin-bottom: 18px;
+    line-height: 1.45;
+  }
+  .opt-btn {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    border-radius: 14px;
+    /* Minimum touch target of 48px */
+    min-height: 48px;
+  }
+  .quiz-opts {
+    gap: 8px;
+  }
+  .explain-box {
+    padding: 12px;
+    font-size: 13px;
+  }
+  .explain-txt {
+    font-size: 13px;
+  }
+  .quiz-next-btn {
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+  .quiz-coins-display {
+    font-size: 12px;
+    min-width: 48px;
+    gap: 3px;
+  }
+  .quiz-coins-display svg {
+    width: 14px;
+    height: 14px;
+  }
+  .quiz-pbar {
+    height: 6px;
+  }
+}
+
+/* ── Results screen — mobile optimization ── */
+@media (max-width: 480px) {
+  .results-screen {
+    padding: 24px 20px;
+  }
+  .r-mammoth-wrap {
+    width: 160px;
+    height: 160px;
+    margin: -4px 0 4px;
+  }
+  .r-title {
+    font-size: 22px;
+  }
+  .r-sub {
+    font-size: 13px;
+    margin-bottom: 24px;
+    max-width: 260px;
+  }
+  .ring-wrap {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 20px;
+  }
+  .ring-num {
+    font-size: 26px;
+  }
+  .ring-lbl {
+    font-size: 11px;
+  }
+  .rewards {
+    gap: 8px;
+    margin-bottom: 24px;
+    max-width: 300px;
+  }
+  .rw-card {
+    padding: 10px 8px;
+    border-radius: 12px;
+  }
+  .rw-val {
+    font-size: 17px;
+  }
+  .rw-lbl {
+    font-size: 9px;
+  }
+  .r-btns {
+    max-width: 300px;
+    gap: 8px;
+  }
+  .r-btn {
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 14px;
+  }
+  .r-btn.outline {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+/* ── Paywall — mobile optimization ── */
+@media (max-width: 480px) {
+  .paywall-card {
+    padding: 28px 20px 24px;
+    border-radius: 22px;
+  }
+  .paywall-title {
+    font-size: 22px;
+  }
+  .paywall-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .paywall-features li {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+  .paywall-btn {
+    padding: 14px;
+    font-size: 15px;
+  }
+}
+
+/* ── Energy overlay — mobile optimization ── */
+@media (max-width: 480px) {
+  .energy-overlay-card {
+    padding: 28px 24px 24px;
+    max-width: 340px;
+  }
+  .energy-overlay-title {
+    font-size: 20px;
+  }
+  .energy-overlay-sub {
+    font-size: 13px;
+  }
+}
+
+/* ── Roadmap — extra small screens ── */
+@media (max-width: 340px) {
+  .roadmap-node {
+    width: 110px;
+    min-height: 130px;
+    padding: 16px 8px 12px;
+  }
+  .roadmap-node-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+  .roadmap-node-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .roadmap-node-title {
+    font-size: 11px;
+  }
+  .roadmap-node-status {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
+  .roadmap-cta-btn {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+}
+
+/* ── Global mobile touch improvements ── */
+@media (max-width: 768px) {
+  /* Ensure no horizontal overflow on the app */
+  #app {
+    overflow-x: hidden;
+  }
+  .app-section {
+    overflow-x: hidden;
+  }
+
+  /* Prevent double-tap zoom on interactive elements */
+  button, .tl-item, .catalog-card, .opt-btn, .roadmap-node {
+    touch-action: manipulation;
+  }
+
+  /* Smooth scrolling for all screens */
+  .topics-body,
+  .quiz-body,
+  .roadmap-scroll-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Navbar adjustments for course page */
+  .site-nav {
+    padding: 0 12px;
+  }
+  .nav-brand {
+    font-size: 16px;
+  }
+}
+
+/* ── Google Auth overlay — mobile ── */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 20px 24px;
+    border-radius: 22px;
+    max-width: 340px;
+  }
+  .auth-title {
+    font-size: 20px;
+  }
+  .auth-subtitle {
+    font-size: 13px;
+  }
+}
